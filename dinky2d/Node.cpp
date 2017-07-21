@@ -8,11 +8,18 @@
 
 #include "Node.hpp"
 #include "Director.hpp"
-
 namespace Dinky {
     
     Node::Node() {
-        _program = new Program("../dinky2d/shader/default.vert", "../dinky2d/shader/default.frag");
+        setShader("../dinky2d/shader/default.vert", "../dinky2d/shader/default.frag");
+    }
+    
+    void Node::setShader(const std::string &vertFile, const std::string &fragFile) {
+        if(_program) {
+            delete _program;
+        }
+        _program = new Program(vertFile, fragFile);
+        _program->use();
     }
     
     Node::~Node() {
@@ -75,7 +82,6 @@ namespace Dinky {
     }
     
     void Node::draw() {
-        _program->use();
         if(_parent) {
             // 正射投影
             glm::vec2 winSize = Director::getInstance()->getWinSize();
@@ -93,7 +99,7 @@ namespace Dinky {
             glUniformMatrix4fv(_program->getUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(model));
             
             // 颜色
-            glUniform4fv(_program->getUniformLocation("color"), 1, glm::value_ptr(_color));
+            glUniform4fv(_program->getUniformLocation("fragColor"), 1, glm::value_ptr(_color));
             
             // 开始绘制
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

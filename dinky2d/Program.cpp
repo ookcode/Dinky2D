@@ -60,10 +60,10 @@ namespace Dinky {
         // 顶点信息是以屏幕中心为原点，范围为-1 ~ 1
         GLfloat vertexData[] = {
             //  X     Y     Z
-            -0.5f,  -0.5f,  0.0f,
-            0.5f,   -0.5f,  0.0f,
-            0.5f,   0.5f,   0.0f,
-            -0.5f,  0.5f,   0.0f,
+            -0.5f,  -0.5f,  0.0f,   0.0f,   0.0f,
+            0.5f,   -0.5f,  0.0f,   1.0f,   0.0f,
+            0.5f,   0.5f,   0.0f,   1.0f,   1.0f,
+            -0.5f,  0.5f,   0.0f,   0.0f,   1.0f,
         };
         
         // opengl均以三角形来绘制，如要绘制正方形则需指定两个三角形六个顶点
@@ -81,7 +81,11 @@ namespace Dinky {
         
         // 绑定顶点信息（attribute变量）
         glEnableVertexAttribArray(getAttribLocation("a_position"));
-        glVertexAttribPointer(getAttribLocation("a_position"), 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *)0);
+        glVertexAttribPointer(getAttribLocation("a_position"), 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)0);
+        
+        // 绑定UV信息（attribute变量）
+        glEnableVertexAttribArray(getAttribLocation("a_texCoord"));
+        glVertexAttribPointer(getAttribLocation("a_texCoord"), 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)(sizeof(GLfloat) * 3));
     }
     
     Program::~Program() {

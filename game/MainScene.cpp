@@ -6,11 +6,10 @@
 //  Copyright © 2017年 ookcode. All rights reserved.
 //
 
-#include "mainScene.hpp"
+#include "MainScene.hpp"
 
 MainScene::MainScene() {
     glm::vec2 winSize = Director::getInstance()->getWinSize();
-    
     Node * redBox = new Node();
     redBox->setColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
     redBox->setSize(glm::vec2(100.0f, 100.0f));
@@ -30,6 +29,12 @@ MainScene::MainScene() {
     blueBox->setPosition(glm::vec2(0.0f, 0.0f));
     blueBox->setAnchor(glm::vec2(0.0f, 0.0f));
     greenBox->addChild(blueBox);
+    
+    Sprite* sp = new Sprite("../dinky2d/resources/image.jpg");
+    sp->setColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    sp->setSize(glm::vec2(100.0f, 100.0f));
+    sp->setPosition(winSize / 2.0f);
+    this->addChild(sp);
 }
 
 MainScene::~MainScene() {

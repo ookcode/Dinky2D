@@ -19,6 +19,8 @@ namespace Dinky {
     public:
         Node();
         ~Node();
+        void setShader(const std::string& vertFile, const std::string& fragFile);
+        
         void addChild(Node *node);
         std::vector<Node *> getChildren() {
             return _children;
@@ -58,10 +60,14 @@ namespace Dinky {
             return _worldPos;
         }
         
+        Program* getProgram() {
+            return _program;
+        }
+        
         void removeChild(Node *node);
         void removeFromParent();
-        void draw();
-        
+        virtual void draw();
+ 
     private:
         std::vector<Node *> _children;
         Node *_parent = nullptr;

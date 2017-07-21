@@ -18,6 +18,10 @@ namespace Dinky {
     public:
         Sprite(const std::string& filePath);
         ~Sprite();
+        void draw();
+        
+    private:
+        GLuint _texture = 0;
     };
     
     
