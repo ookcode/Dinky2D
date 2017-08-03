@@ -14,5 +14,5 @@
 | 文本渲染   | ×    |               |
 
 ### 附录
-个人总结的cocos2d-x渲染流程。 [点击查看大图](!https://raw.githubusercontent.com/ookcode/Dinky2D/master/README/cocos_render_step.png)
+个人总结的cocos2d-x渲染流程。 [点击查看大图](https://raw.githubusercontent.com/ookcode/Dinky2D/master/README/cocos_render_step.png)
   ![](README/cocos_render_step.png)
