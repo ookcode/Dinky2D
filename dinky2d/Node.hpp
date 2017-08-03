@@ -56,6 +56,16 @@ namespace Dinky {
             return _rotation;
         }
         
+        void setScale(glm::vec2 scale);
+        glm::vec2& getScale() {
+            return _scale;
+        }
+        
+        void setAnchorPoint(glm::vec2 anchorPoint);
+        glm::vec2& getAnchorPoint() {
+            return _anchorPoint;
+        }
+        
         void setProgram(Program* program);
         Program* getProgram() {
             if(_program == nullptr) {
@@ -83,6 +93,8 @@ namespace Dinky {
         glm::vec4 _color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
         glm::vec2 _size = glm::vec2(0.0f, 0.0f);
         glm::vec2 _position = glm::vec2(0.0f, 0.0f);
+        glm::vec2 _scale = glm::vec2(1.0f, 1.0f);
+        glm::vec2 _anchorPoint = glm::vec2(0.5f, 0.5f);
         float _rotation = 0;
         glm::mat4 _modelViewTransform;
         glm::mat4 _transform;

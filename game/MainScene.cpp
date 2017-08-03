@@ -16,16 +16,20 @@ MainScene::MainScene() {
     red->setSize(glm::vec2(100.0f, 100.0f));
     red->setPosition(winSize / 2.0f);
     red->setRotation(45.0f);
+//    red->setScale(glm::vec2(1.5f, 1.5f));
     this->addChild(red);
-    
+
     Sprite* green = new Sprite("../dinky2d/resources/image.jpg");
     green->setColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-    green->setSize(glm::vec2(70.0f, 70.0f));
+    green->setSize(glm::vec2(100.0f, 100.0f));
+    green->setAnchorPoint(glm::vec2(1.0f, 1.0f));
     red->addChild(green);
     
     Sprite* blue = new Sprite("../dinky2d/resources/image.jpg");
     blue->setColor(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-    blue->setSize(glm::vec2(40.0f, 40.0f));
+    blue->setSize(glm::vec2(100.0f, 100.0f));
+    blue->setPosition(glm::vec2(100.0f, 0.0f));
+    blue->setAnchorPoint(glm::vec2(0.0f, 0.0f));
     green->addChild(blue);
 }
 

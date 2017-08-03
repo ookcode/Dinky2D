@@ -74,11 +74,22 @@ namespace Dinky {
         _rotation = degrees;
     }
     
+    void Node::setScale(glm::vec2 scale) {
+        _scale = scale;
+    }
+    
+    void Node::setAnchorPoint(glm::vec2 anchorPoint) {
+        // FIXME: 锚点需要能影响旋转，目前旋转恒以0.5,0.5为原点
+        _anchorPoint = anchorPoint;
+    }
+    
     glm::mat4& Node::getParentToNodeTransform() {
         // 节点的矩阵变换
         glm::mat4 transform;
         _transform = transform;
-        _transform = glm::translate(_transform, glm::vec3(_position, 0.0f));
+        auto offset = (glm::vec2(0.5f, 0.5f) - _anchorPoint) * _size;
+        _transform = glm::translate(_transform, glm::vec3(_position + offset, 0.0f));
+        _transform = glm::scale(_transform, glm::vec3(_scale, 1.0f));
         _transform = glm::rotate(_transform, glm::radians(_rotation), glm::vec3(0.0f, 0.0f, 1.0f));
         return _transform;
     }
@@ -89,7 +100,10 @@ namespace Dinky {
         }
         
         if(isAncestor == false) {
-            _modelViewTransform = getParentToNodeTransform() * parentTransform;
+            // 注意不要乘反了
+            _modelViewTransform = parentTransform * getParentToNodeTransform();
+            // 强制左下角
+            _modelViewTransform = glm::translate(_modelViewTransform, glm::vec3(_parent->getSize() / -2.0f, 0.0f));
         }
         
         this->draw(renderer, _modelViewTransform);
