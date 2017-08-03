@@ -9,18 +9,36 @@
 #include "Director.hpp"
 
 namespace Dinky {
-    static Director* g_instance = nullptr;
+    Director* Director::_instance = nullptr;
     Director* Director::getInstance() {
-        if(g_instance == nullptr) {
-            g_instance = new Director();
+        if(_instance == nullptr) {
+            _instance = new Director();
         }
-        return g_instance;
+        return _instance;
+    }
+    
+    Director::Director() {
+        _renderer = new Renderer();
+    }
+    
+    Director::~Director() {
+        delete _renderer;
+    }
+    
+    void Director::setOpenGLView() {
+        _renderer->initGLView();
     }
     
     void Director::mainloop() {
+        drawScene();
+    }
+    
+    void Director::drawScene() {
+        _renderer->clear();
         if(_runningScene) {
-            _runningScene->draw();
+            _runningScene->render(_renderer);
         }
+        _renderer->render();
     }
     
     void Director::runWithScene(Scene *scene) {

@@ -9,26 +9,42 @@
 #ifndef Program_hpp
 #define Program_hpp
 
-#include "Shader.hpp"
+#include <string>
+#include <OpenGl/gl3.h>
 #include "glm.hpp"
 #include "matrix_transform.hpp"
 #include "type_ptr.hpp"
 
 namespace Dinky {
     
-    class Program {
+class Program {
     public:
-        Program(const std::string& vertFile, const std::string& fragFile);
+        // vertex attribute序列
+        enum
+        {
+            // Index 0 Position
+            VERTEX_ATTRIB_POSITION,
+            // Index 1 Tex coord 0
+            VERTEX_ATTRIB_TEX_COORD,
+        };
+        // 默认路径
+        static const char* DEFAULT_SHADER_PATH;
+        // 默认着色器
+        static const char* SHADER_DEFAULT;
+    
+    public:
+        Program(const std::string& key);
         ~Program();
+    
         void use();
         GLint getUniformLocation(const char* name);
         GLint getAttribLocation(const char* name);
-        
-    private:
-        GLuint _object = 0;
-        GLuint _vao = 0;
-    };
+        const std::string& getFileByKey(const std::string& name);
     
+    private:
+        GLuint loadShader(const std::string file, GLenum shaderType);
+        GLuint _object = 0;
+};
     
 }
 

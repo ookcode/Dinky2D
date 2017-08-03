@@ -9,8 +9,8 @@
 #ifndef Sprite_hpp
 #define Sprite_hpp
 
-#include <string>
 #include "Node.hpp"
+#include "TextureCache.hpp"
 
 namespace Dinky {
     
@@ -18,10 +18,10 @@ namespace Dinky {
     public:
         Sprite(const std::string& filePath);
         ~Sprite();
-        void draw();
+        virtual void draw(Renderer* renderer, glm::mat4 &parentTransform) override;
         
     private:
-        GLuint _texture = 0;
+        Texture* _texture = nullptr;
     };
     
     

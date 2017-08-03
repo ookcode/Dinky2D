@@ -10,25 +10,30 @@
 #define Director_hpp
 
 #include <string>
+#include "Renderer.hpp"
 #include "Scene.hpp"
 
 namespace Dinky {
     
-class Director {
-public:
-    static Director* getInstance();
-    void mainloop();
-    void runWithScene(Scene *scene);
-    void setWinSize(float width, float height);
-    glm::vec2 getWinSize() {
-        return _winSize;
-    }
-private:
-    Director() = default;
-    ~Director() = default;
-    Scene *_runningScene;
-    glm::vec2 _winSize;
-};
+    class Director {
+    public:
+        static Director* getInstance();
+        void setOpenGLView();
+        void mainloop();
+        void runWithScene(Scene *scene);
+        void setWinSize(float width, float height);
+        glm::vec2 getWinSize() {
+            return _winSize;
+        }
+    private:
+        Director();
+        ~Director();
+        void drawScene();
+        Scene *_runningScene;
+        glm::vec2 _winSize;
+        Renderer *_renderer = nullptr;
+        static Director *_instance;
+    };
 
 }
 

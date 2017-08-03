@@ -1,19 +1,19 @@
 //
-//  Window.cpp
+//  AppController.cpp
 //  dinky2d
 //
-//  Created by Vincent Yao on 2017/7/16.
+//  Created by Vincent Yao on 2017/8/2.
 //  Copyright © 2017年 ookcode. All rights reserved.
 //
 
-#include "Window.hpp"
-#include <OpenGl/gl3.h>
+#include "AppController.hpp"
+
 #include <GLUT/GLUT.h>
 #include "Director.hpp"
 
 namespace Dinky {
-    
-    Window::Window(int argc, char** argv, float width, float height) {
+    AppController* AppController::_instance = new AppController();
+    AppController* AppController::createWindowAndGLView(int argc, char** argv, float width, float height) {
         // 初始化GLUT窗口
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_3_2_CORE_PROFILE);
@@ -21,33 +21,22 @@ namespace Dinky {
         glutInitWindowSize(width, height);
         glutCreateWindow("Dinky2D");
         Director::getInstance()->setWinSize(width, height);
-        glutDisplayFunc(&Window::mainloop);
-        glutTimerFunc(1, &Window::update, 1);
+        return _instance;
     }
     
-    Window::~Window() {
-        
-    }
-    
-    void Window::mainloop() {
-        // 清除窗口
-        glClearColor(0, 0, 0, 1);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
+    void AppController::mainloop() {
         Director::getInstance()->mainloop();
-        
-        // 强制刷新缓冲，显示图形
         glutSwapBuffers();
     }
     
-    void Window::update(int value) {
+    void AppController::update(int value) {
         glutPostRedisplay();
         glutTimerFunc(1, update, 1);
     }
-
-    void Window::show() {
-        // 开始执行
+    
+    void AppController::startup() {
+        glutDisplayFunc(&AppController::mainloop);
+        glutTimerFunc(1, &AppController::update, 1);
         glutMainLoop();
     }
-
 }

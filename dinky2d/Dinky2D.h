@@ -9,8 +9,9 @@
 #ifndef Dinky2D_h
 #define Dinky2D_h
 
-#include "Window.hpp"
+#include "AppController.hpp"
 #include "Director.hpp"
+#include "Scene.hpp"
 #include "Sprite.hpp"
 
 #endif /* Dinky2D_h */

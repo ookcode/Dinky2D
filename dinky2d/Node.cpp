@@ -11,20 +11,9 @@
 namespace Dinky {
     
     Node::Node() {
-        setShader("../dinky2d/shader/default.vert", "../dinky2d/shader/default.frag");
-    }
-    
-    void Node::setShader(const std::string &vertFile, const std::string &fragFile) {
-        if(_program) {
-            delete _program;
-        }
-        _program = new Program(vertFile, fragFile);
-        _program->use();
     }
     
     Node::~Node() {
-        delete _program;
-        _program = nullptr;
         for(auto iter = _children.begin(); iter != _children.end(); ++iter) {
             delete *iter;
         }
@@ -51,6 +40,10 @@ namespace Dinky {
         }
     }
     
+    void Node::setProgram(Program *program) {
+        _program = program;
+    }
+    
     void Node::removeFromParent() {
         if(_parent) {
             _parent->removeChild(this);
@@ -65,6 +58,10 @@ namespace Dinky {
         _size = size;
     }
     
+    void Node::setVisible(bool visible) {
+        _visible = visible;
+    }
+    
     void Node::setPosition(glm::vec2 position) {
         _position = position;
     }
@@ -77,37 +74,33 @@ namespace Dinky {
         _rotation = degrees;
     }
     
-    void Node::setAnchor(glm::vec2 anchor) {
-        _anchor = anchor;
+    glm::mat4& Node::getParentToNodeTransform() {
+        // 节点的矩阵变换
+        glm::mat4 transform;
+        _transform = transform;
+        _transform = glm::translate(_transform, glm::vec3(_position, 0.0f));
+        _transform = glm::rotate(_transform, glm::radians(_rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+        return _transform;
     }
     
-    void Node::draw() {
-        if(_parent) {
-            // 正射投影
-            glm::vec2 winSize = Director::getInstance()->getWinSize();
-            // 左边界，右边界，下边界，上边界
-            glm::mat4 projection = glm::ortho(0.0f, winSize.x, 0.0f, winSize.y, -1.0f, 1.0f);
-            glUniformMatrix4fv(_program->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
-            
-            // 左下角的世界坐标
-            _worldPos = _parent->getWorldPos() + _position - _anchor * _size;
-            // 节点的矩阵变换
-            glm::mat4 model;
-            model = glm::translate(model, glm::vec3(_worldPos + _size / 2.0f, 0.0f));
-            model = glm::rotate(model, glm::radians(_rotation), glm::vec3(0.0f, 0.0f, 1.0f));
-            model = glm::scale(model, glm::vec3(_size, 1.0f));
-            glUniformMatrix4fv(_program->getUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(model));
-            
-            // 颜色
-            glUniform4fv(_program->getUniformLocation("fragColor"), 1, glm::value_ptr(_color));
-            
-            // 开始绘制
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    void Node::visit(Renderer* renderer, glm::mat4 &parentTransform, bool isAncestor) {
+        if (!_visible) {
+            return;
         }
-        // 遍历绘制子节点
-        for(auto iter = _children.begin(); iter != _children.end(); ++iter) {
-            (*iter)->draw();
+        
+        if(isAncestor == false) {
+            _modelViewTransform = getParentToNodeTransform() * parentTransform;
+        }
+        
+        this->draw(renderer, _modelViewTransform);
+        
+        for(auto iter = _children.cbegin(); iter != _children.cend(); ++iter) {
+            (*iter)->visit(renderer, _modelViewTransform, false);
         }
     }
     
+    void Node::draw(Renderer* renderer, glm::mat4 &parentTransform) {
+        
+    }
+
 }

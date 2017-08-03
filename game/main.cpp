@@ -11,14 +11,12 @@
 using namespace Dinky;
 
 int main(int argc, char** argv){
-    float width = 512.0f;
-    float height = 512.0f;
-    Window window(argc, argv, width, height);
-    
+    float width = 568.0f;
+    float height = 320.0f;
+    AppController* app = AppController::createWindowAndGLView(argc, argv, width, height);
+    Director::getInstance()->setOpenGLView();
     MainScene* mainScene = new MainScene();
-    mainScene->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     Director::getInstance()->runWithScene(mainScene);
-    
-    window.show();
+    app->startup();
     return 0;
 }

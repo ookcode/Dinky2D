@@ -13,10 +13,11 @@
 
 namespace Dinky {
     
-class Scene: public Node {
-public:
-    Scene();
-};
+    class Scene: public Node {
+    public:
+        Scene();
+        void render(Renderer* renderer);
+    };
     
 }
 

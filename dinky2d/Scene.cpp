@@ -7,11 +7,15 @@
 //
 
 #include "Scene.hpp"
-#include "Director.hpp"
 
 namespace Dinky {
     
     Scene::Scene() {
+        
+    }
+    
+    void Scene::render(Renderer *renderer) {
+        visit(renderer, getParentToNodeTransform(), true);
     }
     
 }

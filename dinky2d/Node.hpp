@@ -11,7 +11,8 @@
 
 #include <string>
 #include <vector>
-#include "Program.hpp"
+#include "ProgramCache.hpp"
+#include "Renderer.hpp"
 
 namespace Dinky {
     
@@ -19,7 +20,6 @@ namespace Dinky {
     public:
         Node();
         ~Node();
-        void setShader(const std::string& vertFile, const std::string& fragFile);
         
         void addChild(Node *node);
         std::vector<Node *> getChildren() {
@@ -32,17 +32,22 @@ namespace Dinky {
         }
         
         void setSize(glm::vec2 size);
-        glm::vec2 getSize() {
+        glm::vec2& getSize() {
             return _size;
         }
         
+        void setVisible(bool visible);
+        bool getVisible() {
+            return _visible;
+        }
+        
         void setPosition(glm::vec2 position);
-        glm::vec2 getPosition() {
+        glm::vec2& getPosition() {
             return _position;
         }
         
         void setColor(glm::vec4 color);
-        glm::vec4 getColor() {
+        glm::vec4& getColor() {
             return _color;
         }
         
@@ -51,33 +56,36 @@ namespace Dinky {
             return _rotation;
         }
         
-        void setAnchor(glm::vec2 anchor);
-        glm::vec2 getAnchor() {
-            return _anchor;
-        }
-        
-        glm::vec2 getWorldPos() {
-            return _worldPos;
-        }
-        
+        void setProgram(Program* program);
         Program* getProgram() {
+            if(_program == nullptr) {
+                return ProgramCache::getInstance()->getProgram(Program::SHADER_DEFAULT);
+            }
             return _program;
         }
         
         void removeChild(Node *node);
         void removeFromParent();
-        virtual void draw();
- 
+        
+        virtual void draw(Renderer* renderer, glm::mat4 &parentTransform);
+        void visit(Renderer* renderer, glm::mat4 &parentTransform, bool isAncestor);
+        
+        glm::mat4& getParentToNodeTransform();
+        glm::mat4& getModelViewTransform() {
+            return _modelViewTransform;
+        }
+        
     private:
         std::vector<Node *> _children;
+        bool _visible = true;
         Node *_parent = nullptr;
         Program* _program = nullptr;
+        glm::vec4 _color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
         glm::vec2 _size = glm::vec2(0.0f, 0.0f);
         glm::vec2 _position = glm::vec2(0.0f, 0.0f);
-        glm::vec2 _worldPos = glm::vec2(0.0f, 0.0f);
-        glm::vec4 _color = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-        glm::vec2 _anchor = glm::vec2(0.5f, 0.5f);
         float _rotation = 0;
+        glm::mat4 _modelViewTransform;
+        glm::mat4 _transform;
     };
     
     

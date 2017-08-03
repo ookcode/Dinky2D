@@ -7,16 +7,23 @@
 //
 
 #include "Program.hpp"
+#include <fstream>
+#include <sstream>
 
 namespace Dinky {
-
-    Program::Program(const std::string& vertFile, const std::string& fragFile) {
+    const char* Program::SHADER_DEFAULT = "default";
+    const char* Program::DEFAULT_SHADER_PATH = "../dinky2d/shader/";
+    
+    Program::Program(const std::string& key) {
         // 创建程序容器
         _object = glCreateProgram();
         
         // 绑定着色器与容器
-        glAttachShader(_object, Shader::loadShader(vertFile, GL_VERTEX_SHADER).getObject());
-        glAttachShader(_object, Shader::loadShader(fragFile, GL_FRAGMENT_SHADER).getObject());
+        GLuint vertShader = loadShader(DEFAULT_SHADER_PATH + key + ".vert", GL_VERTEX_SHADER);
+        GLuint fragShader = loadShader(DEFAULT_SHADER_PATH + key + ".frag", GL_FRAGMENT_SHADER);
+        
+        glAttachShader(_object, vertShader);
+        glAttachShader(_object, fragShader);
         
         // 连接
         glLinkProgram(_object);
@@ -39,58 +46,56 @@ namespace Dinky {
             throw std::runtime_error(msg);
         }
 
-        // 绑定一个ID用于激活和删除VAO
-        glGenVertexArrays(1, &_vao);
-        // 设置当前vao为活动状态
-        glBindVertexArray(_vao);
-        
-        // 绑定一个ID用于激活和删除vbo
-        GLuint vbo;
-        glGenBuffers(1, &vbo);
-        // 设置当前vbo为活动状态
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        
-        // 绑定一个ID用于激活和删除ebo
-        GLuint ebo;
-        glGenBuffers(1, &ebo);
-        // 设置当前ebo为活动状态
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-        
-        // 设置顶点信息
-        // 顶点信息是以屏幕中心为原点，范围为-1 ~ 1
-        GLfloat vertexData[] = {
-            //  X     Y     Z
-            -0.5f,  -0.5f,  0.0f,   0.0f,   0.0f,
-            0.5f,   -0.5f,  0.0f,   1.0f,   0.0f,
-            0.5f,   0.5f,   0.0f,   1.0f,   1.0f,
-            -0.5f,  0.5f,   0.0f,   0.0f,   1.0f,
-        };
-        
-        // opengl均以三角形来绘制，如要绘制正方形则需指定两个三角形六个顶点
-        // 因其中顶点存在重复，故可使用ebo来复用顶点
-        // 索引信息，两个三角形的顶点分别为vbo中的索引项
-        GLuint elementData[] = {
-            0, 1, 2,
-            2, 3, 0,
-        };
-        
-        // 将顶点信息传递给VBO
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
-        
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elementData), elementData, GL_STATIC_DRAW);
-        
-        // 绑定顶点信息（attribute变量）
-        glEnableVertexAttribArray(getAttribLocation("a_position"));
-        glVertexAttribPointer(getAttribLocation("a_position"), 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)0);
-        
-        // 绑定UV信息（attribute变量）
-        glEnableVertexAttribArray(getAttribLocation("a_texCoord"));
-        glVertexAttribPointer(getAttribLocation("a_texCoord"), 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)(sizeof(GLfloat) * 3));
+        glDeleteShader(vertShader);
+        glDeleteShader(fragShader);
     }
     
     Program::~Program() {
-        glBindVertexArray(0);
         glDeleteProgram(_object);
+    }
+    
+    GLuint Program::loadShader(const std::string file, GLenum shaderType) {
+        // 打开文件
+        std::ifstream f;
+        f.open(file.c_str(), std::ios::in | std::ios::binary);
+        if(!f.is_open()){
+            throw std::runtime_error(std::string("无法打开文件：") + file);
+        }
+        
+        // 读取文件内容
+        std::stringstream buffer;
+        buffer << f.rdbuf();
+        const std::string &bufferStr =  buffer.str();
+        
+        // 创建shader对象
+        GLuint object = glCreateShader(shaderType);
+        
+        const GLchar* source = bufferStr.c_str();
+        glShaderSource(object, 1, &source, NULL);
+        
+        // 编译
+        glCompileShader(object);
+        
+        // 编译检测
+        GLint status;
+        glGetShaderiv(object, GL_COMPILE_STATUS, &status);
+        if (status == GL_FALSE) {
+            std::string msg("编译shader失败：\n");
+            
+            GLint infoLogLength;
+            glGetShaderiv(object, GL_INFO_LOG_LENGTH, &infoLogLength);
+            
+            char* strInfoLog = new char[infoLogLength + 1];
+            glGetShaderInfoLog(object, infoLogLength, NULL, strInfoLog);
+            msg += strInfoLog;
+            delete[] strInfoLog;
+            
+            glDeleteShader(object);
+            object = 0;
+            throw std::runtime_error(msg);
+        }
+        
+        return object;
     }
     
     GLint Program::getUniformLocation(const char *name) {
@@ -107,7 +112,6 @@ namespace Dinky {
     
     void Program::use() {
         glUseProgram(_object);
-        glBindVertexArray(_vao);
     }
 
 }
