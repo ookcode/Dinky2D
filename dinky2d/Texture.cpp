@@ -22,8 +22,8 @@ namespace Dinky {
         // 检查纹理是否正确
         if(0 == texture) {
             std::string msg("SOIL loading error: ");
-            msg = msg + SOIL_last_result();
-            assert(msg.c_str());
+            msg = msg + SOIL_last_result() + key;
+            throw std::runtime_error(msg);
         }
         _texture = texture;
     }

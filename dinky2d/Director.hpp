@@ -29,7 +29,7 @@ namespace Dinky {
         Director();
         ~Director();
         void drawScene();
-        Scene *_runningScene;
+        Scene *_runningScene = nullptr;
         glm::vec2 _winSize;
         Renderer *_renderer = nullptr;
         static Director *_instance;

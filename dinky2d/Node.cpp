@@ -83,14 +83,19 @@ namespace Dinky {
         _anchorPoint = anchorPoint;
     }
     
+    void Node::updateVertices() {
+        
+    }
+    
     glm::mat4& Node::getParentToNodeTransform() {
         // 节点的矩阵变换
         glm::mat4 transform;
         _transform = transform;
-        auto offset = (glm::vec2(0.5f, 0.5f) - _anchorPoint) * _size;
-        _transform = glm::translate(_transform, glm::vec3(_position + offset, 0.0f));
+        // 子节点强制以父节点左下角为原点
+        glm::vec2 offset = -_parent->getSize() * _parent->getAnchorPoint();
+        _transform = glm::translate(_transform, glm::vec3(_position + offset , 0.0f));
         _transform = glm::scale(_transform, glm::vec3(_scale, 1.0f));
-        _transform = glm::rotate(_transform, glm::radians(_rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+        _transform = glm::rotate(_transform, glm::radians(-_rotation), glm::vec3(0.0f, 0.0f, 1.0f));
         return _transform;
     }
     
@@ -100,10 +105,8 @@ namespace Dinky {
         }
         
         if(isAncestor == false) {
-            // 注意不要乘反了
+            // 不要乘反了
             _modelViewTransform = parentTransform * getParentToNodeTransform();
-            // 强制左下角
-            _modelViewTransform = glm::translate(_modelViewTransform, glm::vec3(_parent->getSize() / -2.0f, 0.0f));
         }
         
         this->draw(renderer, _modelViewTransform);
@@ -113,7 +116,7 @@ namespace Dinky {
         }
     }
     
-    void Node::draw(Renderer* renderer, glm::mat4 &parentTransform) {
+    void Node::draw(Renderer* renderer, glm::mat4 &transform) {
         
     }
 

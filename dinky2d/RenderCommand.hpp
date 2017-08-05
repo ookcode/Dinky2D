@@ -12,9 +12,30 @@
 #include "Program.hpp"
 
 namespace Dinky {
+    
+    struct Vertex {
+        Vertex() {};
+        Vertex(GLfloat x, GLfloat y, GLfloat z, GLfloat u, GLfloat v):vert(x, y, z),coord(u,v){}
+        glm::vec3 vert;
+        glm::vec2 coord;
+    };
+    
+    struct Triangles
+    {
+        Vertex* verts;
+        GLuint* indices;
+        int vertCount;
+        int indexCount;
+        Triangles() = default;
+        ~Triangles() {
+            delete verts;
+            delete indices;
+        }
+    };
+    
     class RenderCommand {
     public:
-        RenderCommand(Program *program, glm::mat4& transform);
+        RenderCommand(Program *program, glm::mat4& transform, Triangles& triangles) ;
         Program* getProgram() {
             return _program;
         }
@@ -34,15 +55,16 @@ namespace Dinky {
             return _color;
         }
         
-        void setSize(glm::vec2& size);
-        glm::vec2& getSize() {
-            return _size;
+        Triangles& getTriangles() {
+            return _triangles;
         }
+        
+        void useMaterial();
     private:
         Program *_program = nullptr;
+        Triangles& _triangles;
         glm::mat4& _transform;
-        glm::vec4 _color;
-        glm::vec2 _size;
+        glm::vec4 _color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
         GLuint _texture = 0;
     };
 }

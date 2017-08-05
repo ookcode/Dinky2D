@@ -15,7 +15,7 @@ namespace Dinky {
     }
     
     void Scene::render(Renderer *renderer) {
-        visit(renderer, getParentToNodeTransform(), true);
+        visit(renderer, getModelViewTransform(), true);
     }
     
 }

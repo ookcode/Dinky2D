@@ -7,7 +7,6 @@
 //
 
 #include "Renderer.hpp"
-#include "Director.hpp"
 
 namespace Dinky {
     void Renderer::initGLView() {
@@ -30,36 +29,17 @@ namespace Dinky {
         // 设置当前ebo为活动状态
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
         
-        // 设置顶点信息
-        // 顶点信息是以屏幕中心为原点，范围为-1 ~ 1
-        GLfloat vertex_data[] = {
-            //  X     Y     Z
-            -0.5f,  -0.5f,  0.0f,   0.0f,   0.0f,
-            0.5f,   -0.5f,  0.0f,   1.0f,   0.0f,
-            0.5f,   0.5f,   0.0f,   1.0f,   1.0f,
-            -0.5f,  0.5f,   0.0f,   0.0f,   1.0f,
-        };
-        
-        // opengl均以三角形来绘制，如要绘制正方形则需指定两个三角形六个顶点
-        // 因其中顶点存在重复，故可使用ebo来复用顶点
-        // 索引信息，两个三角形的顶点分别为vbo中的索引项
-        GLuint element_index[] = {
-            0, 1, 2,
-            2, 3, 0,
-        };
-        
         // 将顶点信息传递给VBO
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data), vertex_data, GL_STATIC_DRAW);
-        
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(element_index), element_index, GL_STATIC_DRAW);
+//        glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * VBO_SIZE, _verts, GL_DYNAMIC_DRAW);
+//        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * INDEX_VBO_SIZE, _indices, GL_STATIC_DRAW);
         
         // 绑定顶点信息（attribute变量）
         glEnableVertexAttribArray(Program::VERTEX_ATTRIB_POSITION);
-        glVertexAttribPointer(Program::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)0);
+        glVertexAttribPointer(Program::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)0);
         
         // 绑定UV信息（attribute变量）
         glEnableVertexAttribArray(Program::VERTEX_ATTRIB_TEX_COORD);
-        glVertexAttribPointer(Program::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void *)(sizeof(GLfloat) * 3));
+        glVertexAttribPointer(Program::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(sizeof(GLfloat) * 3));
         
         // 解绑vao,vbo,ebo
         glBindVertexArray(0);
@@ -80,40 +60,47 @@ namespace Dinky {
         if(_commands.empty()) {
             return;
         }
+        
+        _filledVertex = 0;
+        _filledIndex = 0;
+        int batchesTotal = 0;
+        
         for(auto iter = _commands.begin(); iter != _commands.end(); ++iter) {
             RenderCommand *command = (*iter);
-            Program *program = command->getProgram();
-            GLuint texture = command->getTexture();
             
-            // 重新绑定 vao vbo ebo
-            glBindVertexArray(_vao);
-            glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-            
-            if(texture != 0) {
-                // 激活纹理
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, texture);
+            Triangles& triangles = command->getTriangles();
+            memcpy(&_verts[_filledVertex], triangles.verts, sizeof(Vertex) * triangles.vertCount);
+            for(ssize_t i = 0; i < triangles.indexCount; ++i) {
+                _indices[_filledIndex + i] = triangles.indices[i] + _filledVertex;
+            }
+
+            for(ssize_t i = 0; i < triangles.vertCount; ++i) {
+                glm::vec3& vert = _verts[_filledVertex + i].vert;
+                // 不要乘反了
+                vert = command->getTransform() * glm::vec4(vert, 1.0f);
+//                printf("%.2f, %.2f, %.2f\n", vert.x, vert.y, vert.z);
             }
             
-            program->use();
+            _filledVertex += triangles.vertCount;
+            _filledIndex += triangles.indexCount;
             
-            // 正射投影
-            glm::vec2 winSize = Director::getInstance()->getWinSize();
-            // 左边界，右边界，下边界，上边界
-            glm::mat4 projection = glm::ortho(0.0f, winSize.x, 0.0f, winSize.y, -1.0f, 1.0f);
-            glUniformMatrix4fv(program->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
-            
-            // 颜色
-            glUniform4fv(program->getUniformLocation("fragColor"), 1, glm::value_ptr(command->getColor()));
-
-            // 节点的矩阵变换
-            auto transform = glm::scale(command->getTransform(), glm::vec3(command->getSize(), 1.0f));
-            glUniformMatrix4fv(program->getUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(transform));
-            
+            batchesTotal++;
+        }
+        // 重新绑定 vao vbo ebo
+        glBindVertexArray(_vao);
+        glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
+        
+        // 将顶点信息传递给VBO
+        glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * _filledVertex, _verts, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _filledIndex, _indices, GL_STATIC_DRAW);
+        
+        // TODO:合并纹理相同的batchNode
+        for(int i = 0; i != batchesTotal; ++i) {
+            RenderCommand *command = _commands.at(i);
+            command->useMaterial();
             // 开始绘制
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void *)(sizeof(GLuint) * 6 * i));
             delete command;
         }
         _commands.clear();

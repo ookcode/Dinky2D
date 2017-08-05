@@ -18,10 +18,12 @@ namespace Dinky {
     public:
         Sprite(const std::string& filePath);
         ~Sprite();
-        virtual void draw(Renderer* renderer, glm::mat4 &parentTransform) override;
+        virtual void updateVertices() override;
+        virtual void draw(Renderer* renderer, glm::mat4 &transform) override;
         
     private:
         Texture* _texture = nullptr;
+        Triangles _triangles;
     };
     
     

@@ -77,7 +77,8 @@ namespace Dinky {
         void removeChild(Node *node);
         void removeFromParent();
         
-        virtual void draw(Renderer* renderer, glm::mat4 &parentTransform);
+        virtual void updateVertices();
+        virtual void draw(Renderer* renderer, glm::mat4 &transform);
         void visit(Renderer* renderer, glm::mat4 &parentTransform, bool isAncestor);
         
         glm::mat4& getParentToNodeTransform();
