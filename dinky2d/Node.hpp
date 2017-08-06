@@ -46,8 +46,8 @@ namespace Dinky {
             return _position;
         }
         
-        void setColor(glm::vec4 color);
-        glm::vec4& getColor() {
+        void setColor(glm::vec3 color);
+        glm::vec3& getColor() {
             return _color;
         }
         
@@ -64,6 +64,17 @@ namespace Dinky {
         void setAnchorPoint(glm::vec2 anchorPoint);
         glm::vec2& getAnchorPoint() {
             return _anchorPoint;
+        }
+        
+        void setOpacity(float opacity);
+        float getOpacity() {
+            return _opacity;
+        }
+        
+        void updateCascadeOpacity();
+        void updateDisplayedOpacity(float parentOpacity);
+        float getDisplayedOpacity() {
+            return _displayedOpacity;
         }
         
         void setProgram(Program* program);
@@ -91,14 +102,16 @@ namespace Dinky {
         bool _visible = true;
         Node *_parent = nullptr;
         Program* _program = nullptr;
-        glm::vec4 _color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+        glm::vec3 _color = glm::vec3(1.0f, 1.0f, 1.0f);
         glm::vec2 _size = glm::vec2(0.0f, 0.0f);
         glm::vec2 _position = glm::vec2(0.0f, 0.0f);
         glm::vec2 _scale = glm::vec2(1.0f, 1.0f);
         glm::vec2 _anchorPoint = glm::vec2(0.5f, 0.5f);
-        float _rotation = 0;
-        glm::mat4 _modelViewTransform;
-        glm::mat4 _transform;
+        float _rotation = 0.0f;
+        float _displayedOpacity = 1.0f;
+        float _opacity = 1.0f;
+        glm::mat4 _modelViewTransform; // 节点的最终变换
+        glm::mat4 _transform; // 节点自身的变换
     };
     
     

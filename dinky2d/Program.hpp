@@ -22,9 +22,9 @@ class Program {
         // vertex attribute序列
         enum
         {
-            // Index 0 Position
+            // 0 a_position
             VERTEX_ATTRIB_POSITION,
-            // Index 1 Tex coord 0
+            // 1 a_texCoord
             VERTEX_ATTRIB_TEX_COORD,
         };
         // 默认路径
@@ -36,10 +36,10 @@ class Program {
         Program(const std::string& key);
         ~Program();
     
-        void use();
+        void use(); // 使用容器与着色器
+    
         GLint getUniformLocation(const char* name);
         GLint getAttribLocation(const char* name);
-        const std::string& getFileByKey(const std::string& name);
     
     private:
         GLuint loadShader(const std::string file, GLenum shaderType);

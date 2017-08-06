@@ -12,6 +12,7 @@
 #include <string>
 #include "Renderer.hpp"
 #include "Scene.hpp"
+#include "Scheduler.hpp"
 
 namespace Dinky {
     
@@ -25,6 +26,9 @@ namespace Dinky {
         glm::vec2 getWinSize() {
             return _winSize;
         }
+        Scheduler* getScheduler() {
+            return _scheduler;
+        }
     private:
         Director();
         ~Director();
@@ -32,6 +36,7 @@ namespace Dinky {
         Scene *_runningScene = nullptr;
         glm::vec2 _winSize;
         Renderer *_renderer = nullptr;
+        Scheduler *_scheduler = nullptr;
         static Director *_instance;
     };
 

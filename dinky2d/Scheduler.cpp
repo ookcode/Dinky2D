@@ -1,12 +1,12 @@
 //
-//  Sheduler.cpp
+//  Scheduler.cpp
 //  dinky2d
 //
 //  Created by Vincent Yao on 2017/8/6.
 //  Copyright © 2017年 ookcode. All rights reserved.
 //
 
-#include "Sheduler.hpp"
+#include "Scheduler.hpp"
 
 namespace Dinky {
     Scheduler::Scheduler() {

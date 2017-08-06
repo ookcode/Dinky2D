@@ -25,6 +25,7 @@ namespace Dinky {
         }
         _children.push_back(node);
         node->setParent(this);
+        updateCascadeOpacity();
     }
     
     void Node::removeChild(Node *node) {
@@ -66,7 +67,7 @@ namespace Dinky {
         _position = position;
     }
     
-    void Node::setColor(glm::vec4 color) {
+    void Node::setColor(glm::vec3 color) {
         _color = color;
     }
     
@@ -79,8 +80,27 @@ namespace Dinky {
     }
     
     void Node::setAnchorPoint(glm::vec2 anchorPoint) {
-        // FIXME: 锚点需要能影响旋转，目前旋转恒以0.5,0.5为原点
         _anchorPoint = anchorPoint;
+    }
+    
+    void Node::setOpacity(float opacity) {
+        _opacity = opacity;
+        updateCascadeOpacity();
+    }
+    
+    void Node::updateCascadeOpacity() {
+        float parentOpacity = 1.0f;
+        if(_parent) {
+            parentOpacity = _parent->getDisplayedOpacity();
+        }
+        updateDisplayedOpacity(parentOpacity);
+    }
+
+    void Node::updateDisplayedOpacity(float parentOpacity) {
+        _displayedOpacity = parentOpacity * _opacity;
+        for (auto iter = _children.begin(); iter != _children.end(); ++iter) {
+            (*iter)->updateDisplayedOpacity(_displayedOpacity);
+        }
     }
     
     void Node::updateVertices() {

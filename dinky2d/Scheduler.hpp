@@ -1,5 +1,5 @@
 //
-//  Sheduler.hpp
+//  Scheduler.hpp
 //  dinky2d
 //
 //  Created by Vincent Yao on 2017/8/6.
@@ -27,4 +27,4 @@ namespace Dinky {
     };
 }
 
-#endif /* Sheduler_hpp */
+#endif /* Scheduler_hpp */

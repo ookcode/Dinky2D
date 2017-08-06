@@ -16,6 +16,10 @@ class MainScene: public Scene {
 public:
     MainScene();
     ~MainScene();
+    void update(int dt);
+    
+private:
+    Sprite* _sp = nullptr;
 };
 
 #endif /* mainScene_hpp */

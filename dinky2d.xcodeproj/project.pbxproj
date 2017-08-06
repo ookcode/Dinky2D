@@ -25,6 +25,7 @@
 		BFA5A9511F31B77E003FF647 /* RenderCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFA5A94F1F31B77E003FF647 /* RenderCommand.cpp */; };
 		BFA5A9541F31C5E6003FF647 /* ProgramCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFA5A9521F31C5E6003FF647 /* ProgramCache.cpp */; };
 		BFA5A9581F32F78C003FF647 /* TextureCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFA5A9561F32F78B003FF647 /* TextureCache.cpp */; };
+		BFBD7A4B1F36B11E00A549A6 /* Scheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFBD7A491F36B11E00A549A6 /* Scheduler.cpp */; };
 		BFDB54701F2B1AEC000BE269 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFDB546E1F2B1AEC000BE269 /* Texture.cpp */; };
 /* End PBXBuildFile section */
 
@@ -344,6 +345,8 @@
 		BFA5A9531F31C5E6003FF647 /* ProgramCache.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ProgramCache.hpp; sourceTree = "<group>"; };
 		BFA5A9561F32F78B003FF647 /* TextureCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureCache.cpp; sourceTree = "<group>"; };
 		BFA5A9571F32F78C003FF647 /* TextureCache.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureCache.hpp; sourceTree = "<group>"; };
+		BFBD7A491F36B11E00A549A6 /* Scheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scheduler.cpp; sourceTree = "<group>"; };
+		BFBD7A4A1F36B11E00A549A6 /* Scheduler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scheduler.hpp; sourceTree = "<group>"; };
 		BFDB546E1F2B1AEC000BE269 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		BFDB546F1F2B1AEC000BE269 /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -743,6 +746,8 @@
 				BFA5A9491F31A30D003FF647 /* Renderer.cpp */,
 				BF2058641F1AEDCB0063B87C /* Director.hpp */,
 				BF2058631F1AEDCB0063B87C /* Director.cpp */,
+				BFBD7A4A1F36B11E00A549A6 /* Scheduler.hpp */,
+				BFBD7A491F36B11E00A549A6 /* Scheduler.cpp */,
 				BFDB546F1F2B1AEC000BE269 /* Texture.hpp */,
 				BFDB546E1F2B1AEC000BE269 /* Texture.cpp */,
 				BFA5A9571F32F78C003FF647 /* TextureCache.hpp */,
@@ -840,6 +845,7 @@
 				BF2058771F1B291F0063B87C /* main.cpp in Sources */,
 				BF20587E1F1B2A6F0063B87C /* MainScene.cpp in Sources */,
 				BF2058651F1AEDCB0063B87C /* Director.cpp in Sources */,
+				BFBD7A4B1F36B11E00A549A6 /* Scheduler.cpp in Sources */,
 				BFA5A9581F32F78C003FF647 /* TextureCache.cpp in Sources */,
 				BF2058681F1AEFE60063B87C /* Node.cpp in Sources */,
 			);

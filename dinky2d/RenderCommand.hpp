@@ -45,14 +45,13 @@ namespace Dinky {
             return _texture;
         }
         
-        void setTransform(glm::mat4& transform);
-        glm::mat4& getTransform() {
-            return _transform;
-        }
-        
-        void setColor(glm::vec4& color);
+        void setColor(glm::vec3& color, float opaticy);
         glm::vec4& getColor() {
             return _color;
+        }
+        
+        glm::mat4& getTransform() {
+            return _transform;
         }
         
         Triangles& getTriangles() {
@@ -60,6 +59,7 @@ namespace Dinky {
         }
         
         void useMaterial();
+        
     private:
         Program *_program = nullptr;
         Triangles& _triangles;

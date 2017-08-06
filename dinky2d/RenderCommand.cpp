@@ -21,8 +21,8 @@ namespace Dinky {
         _texture = texture;
     }
     
-    void RenderCommand::setColor(glm::vec4 &color) {
-        _color = color;
+    void RenderCommand::setColor(glm::vec3 &color, float opacity) {
+        _color = glm::vec4(color, opacity);
     }
     
     void RenderCommand::useMaterial() {
@@ -31,6 +31,9 @@ namespace Dinky {
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, _texture);
         }
+        
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         _program->use();
         

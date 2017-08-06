@@ -19,10 +19,12 @@ namespace Dinky {
     
     Director::Director() {
         _renderer = new Renderer();
+        _scheduler = new Scheduler();
     }
     
     Director::~Director() {
         delete _renderer;
+        delete _scheduler;
     }
     
     void Director::setOpenGLView() {
@@ -31,6 +33,7 @@ namespace Dinky {
     
     void Director::mainloop() {
         drawScene();
+        _scheduler->update();
     }
     
     void Director::drawScene() {

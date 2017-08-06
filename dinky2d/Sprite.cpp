@@ -47,7 +47,7 @@ namespace Dinky {
             updateVertices();
             RenderCommand* command = new RenderCommand(getProgram(), transform, _triangles);
             command->setTexture(_texture->getObject());
-            command->setColor(getColor());
+            command->setColor(getColor(), getDisplayedOpacity());
             renderer->addCommand(command);
         }
     }
