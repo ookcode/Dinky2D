@@ -5,14 +5,20 @@
 * 学习OpenGL
 
 ### 进度
-| 目标     | 是否完成 | 备注            |
-| ------ | ---- | ------------- |
-| 基本渲染流程 | √    | 包括图片渲染        |
-| 基本矩阵变换 | √    | 坐标，缩放，旋转，节点层次 |
-| 定时器    | ×    |               |
-| 动作     | ×    |               |
-| 文本渲染   | ×    |               |
+| 目标     | 是否完成 | 备注             |
+| ------ | :--: | -------------- |
+| 基本渲染流程 |  ✔️  |                |
+| 基本矩阵变换 |  ✔️  | 坐标，缩放，旋转，锚点，层次 |
+| Node   |  ✔️  | 颜色，可见度，透明度     |
+| Sprite |  ✔️  |                |
+| Layer  |  ✘   |                |
+| Label  |  ✘   |                |
+| 定时器    | ...  | 全局定时器完成        |
+| 动作     |  ✘   |                |
+| 键盘输入   |  ✘   |                |
+| 鼠标输入   |  ✘   |                |
+| Demo   |  ✘   |                |
 
 ### 附录
-个人总结的cocos2d-x渲染流程。 [点击查看大图](https://raw.githubusercontent.com/ookcode/Dinky2D/master/README/cocos_render_step.png)
-  ![](README/cocos_render_step.png)
+个人总结的cocos2d-x渲染流程。 [点击查看大图](https://raw.githubusercontent.com/ookcode/Dinky2D/master/README/cocos_rendering.png)  
+  ![](README/cocos_rendering.png)
