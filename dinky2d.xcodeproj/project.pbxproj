@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF0EE6911F3870F60040C45C /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF0EE68F1F3870F60040C45C /* Layer.cpp */; };
 		BF20585F1F1AE7970063B87C /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = BF2058551F1AE7880063B87C /* image_DXT.c */; };
 		BF2058601F1AE79C0063B87C /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = BF2058571F1AE7880063B87C /* image_helper.c */; };
 		BF2058611F1AE79F0063B87C /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = BF2058591F1AE7880063B87C /* SOIL.c */; };
@@ -42,6 +43,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BF0EE68D1F3870B80040C45C /* defaultColor.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = defaultColor.frag; sourceTree = "<group>"; };
+		BF0EE68E1F3870B80040C45C /* defaultColor.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = defaultColor.vert; sourceTree = "<group>"; };
+		BF0EE68F1F3870F60040C45C /* Layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cpp; sourceTree = "<group>"; };
+		BF0EE6901F3870F60040C45C /* Layer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Layer.hpp; sourceTree = "<group>"; };
 		BF2057481F1AE7880063B87C /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		BF2057491F1AE7880063B87C /* common.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		BF20574B1F1AE7880063B87C /* _features.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = _features.hpp; sourceTree = "<group>"; };
@@ -698,6 +703,8 @@
 			children = (
 				BF20586E1F1B08E30063B87C /* default.vert */,
 				BF20586D1F1B08E30063B87C /* default.frag */,
+				BF0EE68E1F3870B80040C45C /* defaultColor.vert */,
+				BF0EE68D1F3870B80040C45C /* defaultColor.frag */,
 			);
 			path = shader;
 			sourceTree = "<group>";
@@ -758,6 +765,8 @@
 				BF2058691F1AF1150063B87C /* Scene.cpp */,
 				BF862BA31F1AE3EC00B8E8DF /* Sprite.hpp */,
 				BF862BA21F1AE3EC00B8E8DF /* Sprite.cpp */,
+				BF0EE6901F3870F60040C45C /* Layer.hpp */,
+				BF0EE68F1F3870F60040C45C /* Layer.cpp */,
 				BF20586C1F1B08E30063B87C /* shader */,
 				BF20570E1F1AE7880063B87C /* thirdpart */,
 			);
@@ -842,6 +851,7 @@
 				BF20586B1F1AF1150063B87C /* Scene.cpp in Sources */,
 				BF20585F1F1AE7970063B87C /* image_DXT.c in Sources */,
 				BF2058621F1AE7A40063B87C /* stb_image_aug.c in Sources */,
+				BF0EE6911F3870F60040C45C /* Layer.cpp in Sources */,
 				BF2058771F1B291F0063B87C /* main.cpp in Sources */,
 				BF20587E1F1B2A6F0063B87C /* MainScene.cpp in Sources */,
 				BF2058651F1AEDCB0063B87C /* Director.cpp in Sources */,
