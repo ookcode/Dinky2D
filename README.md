@@ -11,14 +11,15 @@
 | 基本矩阵变换 |  ✔️  | 坐标，缩放，旋转，锚点，层次 |
 | Node   |  ✔️  | 颜色，可见度，透明度     |
 | Sprite |  ✔️  |                |
-| Layer  |  ✘   |                |
-| Label  |  ✘   |                |
-| 定时器    | ...  | 全局定时器完成        |
-| 动作     |  ✘   |                |
+| Layer  |  ✔️  |                |
+| 定时器    | ✔️  |         |
 | 键盘输入   |  ✘   |                |
 | 鼠标输入   |  ✘   |                |
+| 动作     |  ✘   |                |
+| Label  |  ✘   |                |
 | Demo   |  ✘   |                |
 
 ### 附录
 个人总结的cocos2d-x渲染流程。 [点击查看大图](https://raw.githubusercontent.com/ookcode/Dinky2D/master/README/cocos_rendering.png)  
+
   ![](README/cocos_rendering.png)
