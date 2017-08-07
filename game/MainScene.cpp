@@ -7,17 +7,20 @@
 //
 
 #include "MainScene.hpp"
-#define MAIN_SCENE_TIMER_KEY "MAIN_SCENE_TIMER_KEY"
+
 MainScene::MainScene() {
     glm::vec2 winSize = Director::getInstance()->getWinSize();
 
+    Layer* layer = new Layer(winSize.x, winSize.y, glm::vec4(0.3f, 0.3f, 0.3f, 1.0f));
+    this->addChild(layer);
+    
     Sprite* red = new Sprite("../dinky2d/resources/image.jpg");
     red->setColor(glm::vec3(1.0f, 0.0f, 0.0f));
 //    red->setOpacity(0.5f);
     red->setSize(glm::vec2(100.0f, 100.0f));
     red->setPosition(winSize / 2.0f);
     red->setRotation(30.0f);
-    this->addChild(red);
+    layer->addChild(red);
     _sp = red;
 
     Sprite* green = new Sprite("../dinky2d/resources/image.jpg");
@@ -34,15 +37,13 @@ MainScene::MainScene() {
     blue->setAnchorPoint(glm::vec2(0.0f, 0.0f));
     blue->setRotation(60.0f);
     green->addChild(blue);
-    
-    std::function<void(int)> callback = std::bind(&MainScene::update, this, std::placeholders::_1);
-    Director::getInstance()->getScheduler()->schedule(callback, MAIN_SCENE_TIMER_KEY);
+
+    this->schedule(std::bind(&MainScene::update, this, std::placeholders::_1));
 }
 
-void MainScene::update(int dt) {
+void MainScene::update(float dt) {
     _sp->setRotation(_sp->getRotation() + 1.0f);
 }
 
 MainScene::~MainScene() {
-    Director::getInstance()->getScheduler()->unschedule(MAIN_SCENE_TIMER_KEY);
 }

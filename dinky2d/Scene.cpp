@@ -14,6 +14,10 @@ namespace Dinky {
         
     }
     
+    Scene::~Scene() {
+        
+    }
+    
     void Scene::render(Renderer *renderer) {
         visit(renderer, getModelViewTransform(), true);
     }

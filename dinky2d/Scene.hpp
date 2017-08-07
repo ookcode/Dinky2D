@@ -16,6 +16,7 @@ namespace Dinky {
     class Scene: public Node {
     public:
         Scene();
+        virtual ~Scene() override;
         void render(Renderer* renderer);
     };
     

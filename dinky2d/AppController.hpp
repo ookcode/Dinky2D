@@ -13,6 +13,8 @@ namespace Dinky {
     class AppController {
     public:
         static AppController* createWindowAndGLView(int argc, char** argv, float width, float height);
+        static void setFps(unsigned int fps);
+        
         void startup();
         
     private:
@@ -20,6 +22,9 @@ namespace Dinky {
         static void update(int value);
         static void mainloop();
         static AppController* _instance;
+        
+        static unsigned int _fps;
+        static unsigned int _refreshInterval;
     };
 }
 

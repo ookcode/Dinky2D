@@ -18,12 +18,15 @@ namespace Dinky {
     public:
         Scheduler();
         ~Scheduler();
-        void schedule(std::function<void(int)> &callback, const std::string& key);
+        typedef std::function<void(float)> SEL_SCHEDULE;
+        std::string schedule(SEL_SCHEDULE &callback);
+        void unschedule(SEL_SCHEDULE &callback);
         void unschedule(const std::string& key);
-        void update();
+        void unscheduleAll();
+        void update(float dt);
         
     private:
-        std::map<std::string, std::function<void(int)> > _timers;
+        std::map<std::string, SEL_SCHEDULE> _timers;
     };
 }
 

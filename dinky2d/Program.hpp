@@ -31,6 +31,8 @@ class Program {
         static const char* DEFAULT_SHADER_PATH;
         // 默认着色器
         static const char* SHADER_DEFAULT;
+        // 颜色着色器
+        static const char* SHADER_DEFAULT_COLOR;
     
     public:
         Program(const std::string& key);

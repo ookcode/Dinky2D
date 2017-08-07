@@ -26,18 +26,25 @@ namespace Dinky {
         glm::vec2 getWinSize() {
             return _winSize;
         }
+        void registerScheduler(Scheduler *scheduler);
+        void ungisterScheduler(Scheduler *scheduler);
         Scheduler* getScheduler() {
-            return _scheduler;
+            return _globalScheduler;
         }
     private:
         Director();
         ~Director();
         void drawScene();
-        Scene *_runningScene = nullptr;
+        long getTimeStamp();
+        
         glm::vec2 _winSize;
+        Scene *_runningScene = nullptr;
         Renderer *_renderer = nullptr;
-        Scheduler *_scheduler = nullptr;
+        long _lastTimeStamp = 0;
+        float _realFps = 0.0f;
         static Director *_instance;
+        Scheduler *_globalScheduler = nullptr;
+        std::map<std::string, Scheduler*> _schedulers;
     };
 
 }

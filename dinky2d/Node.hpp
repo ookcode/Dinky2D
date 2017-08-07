@@ -13,13 +13,14 @@
 #include <vector>
 #include "ProgramCache.hpp"
 #include "Renderer.hpp"
+#include "Scheduler.hpp"
 
 namespace Dinky {
     
     class Node {
     public:
         Node();
-        ~Node();
+        virtual ~Node();
         
         void addChild(Node *node);
         std::vector<Node *> getChildren() {
@@ -79,9 +80,6 @@ namespace Dinky {
         
         void setProgram(Program* program);
         Program* getProgram() {
-            if(_program == nullptr) {
-                return ProgramCache::getInstance()->getProgram(Program::SHADER_DEFAULT);
-            }
             return _program;
         }
         
@@ -91,6 +89,11 @@ namespace Dinky {
         virtual void updateVertices();
         virtual void draw(Renderer* renderer, glm::mat4 &transform);
         void visit(Renderer* renderer, glm::mat4 &parentTransform, bool isAncestor);
+        
+        std::string schedule(Scheduler::SEL_SCHEDULE callback);
+        void unschedule(Scheduler::SEL_SCHEDULE callback);
+        void unschedule(const std::string& key);
+        void unscheduleAll();
         
         glm::mat4& getParentToNodeTransform();
         glm::mat4& getModelViewTransform() {
@@ -112,6 +115,7 @@ namespace Dinky {
         float _opacity = 1.0f;
         glm::mat4 _modelViewTransform; // 节点的最终变换
         glm::mat4 _transform; // 节点自身的变换
+        Scheduler *_scheduler = nullptr;
     };
     
     

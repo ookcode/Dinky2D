@@ -26,11 +26,9 @@ namespace Dinky {
     }
     
     void RenderCommand::useMaterial() {
-        if(_texture != 0) {
-            // 激活纹理
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, _texture);
-        }
+        // 激活纹理
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, _texture);
         
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

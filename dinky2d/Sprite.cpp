@@ -28,6 +28,8 @@ namespace Dinky {
             0, 1, 2,
             2, 3, 0,
         };
+        
+        setProgram(ProgramCache::getInstance()->getProgram(Program::SHADER_DEFAULT));
     }
     
     Sprite::~Sprite() {

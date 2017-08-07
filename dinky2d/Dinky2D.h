@@ -13,5 +13,6 @@
 #include "Director.hpp"
 #include "Scene.hpp"
 #include "Sprite.hpp"
+#include "Layer.hpp"
 
 #endif /* Dinky2D_h */

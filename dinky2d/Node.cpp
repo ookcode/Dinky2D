@@ -11,9 +11,11 @@
 namespace Dinky {
     
     Node::Node() {
+        _scheduler = new Scheduler();
     }
     
     Node::~Node() {
+        delete _scheduler;
         for(auto iter = _children.begin(); iter != _children.end(); ++iter) {
             delete *iter;
         }
@@ -101,6 +103,22 @@ namespace Dinky {
         for (auto iter = _children.begin(); iter != _children.end(); ++iter) {
             (*iter)->updateDisplayedOpacity(_displayedOpacity);
         }
+    }
+    
+    std::string Node::schedule(Scheduler::SEL_SCHEDULE callback) {
+        return _scheduler->schedule(callback);
+    }
+    
+    void Node::unschedule(Scheduler::SEL_SCHEDULE callback) {
+        _scheduler->unschedule(callback);
+    }
+    
+    void Node::unschedule(const std::string &key) {
+        _scheduler->unschedule(key);
+    }
+    
+    void Node::unscheduleAll() {
+        _scheduler->unscheduleAll();
     }
     
     void Node::updateVertices() {

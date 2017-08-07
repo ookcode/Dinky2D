@@ -7,7 +7,8 @@
 //
 
 #include "Director.hpp"
-
+#include <chrono>
+#include <sstream>
 namespace Dinky {
     Director* Director::_instance = nullptr;
     Director* Director::getInstance() {
@@ -19,21 +20,65 @@ namespace Dinky {
     
     Director::Director() {
         _renderer = new Renderer();
-        _scheduler = new Scheduler();
+        _globalScheduler = new Scheduler();
     }
     
     Director::~Director() {
         delete _renderer;
-        delete _scheduler;
+        delete _globalScheduler;
     }
     
     void Director::setOpenGLView() {
         _renderer->initGLView();
     }
     
+    long Director::getTimeStamp() {
+        auto now = std::chrono::system_clock::now();
+        auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
+        auto epoch = now_ms.time_since_epoch();
+        auto value = std::chrono::duration_cast<std::chrono::milliseconds>(epoch);
+        long duration = value.count();
+        return duration;
+    }
+    
+    void Director::registerScheduler(Scheduler *scheduler) {
+        std::ostringstream oskey;
+        oskey << &scheduler;
+        std::string key = oskey.str();
+        auto iter = _schedulers.find(key);
+        assert(iter == _schedulers.end() && "registerScheduler fail, scheduler already exists");
+        if(iter == _schedulers.end()) {
+            _schedulers[key] = scheduler;
+        }
+    }
+    
+    void Director::ungisterScheduler(Scheduler *scheduler) {
+        std::ostringstream oskey;
+        oskey << &scheduler;
+        std::string key = oskey.str();
+        auto iter = _schedulers.find(key);
+        // assert(iter != _schedulers.end() && "ungisterScheduler fail, scheduler not exists");
+        if(iter != _schedulers.end()) {
+            _schedulers.erase(iter);
+        }
+    }
+    
     void Director::mainloop() {
+        if(_lastTimeStamp == 0) {
+            _lastTimeStamp = getTimeStamp();
+        }
+        long currentTimeStamp = getTimeStamp();
+        float dt = (currentTimeStamp - _lastTimeStamp) / 1000.0f;
+        _realFps = 1.0f / dt;
+        // printf("dt = %f , fps = %f\n", dt, _realFps);
+        _lastTimeStamp = currentTimeStamp;
+        
         drawScene();
-        _scheduler->update();
+        
+        // 遍历定时器
+        for(auto iter = _schedulers.begin(); iter != _schedulers.end(); ++iter) {
+            iter->second->update(dt);
+        }
     }
     
     void Director::drawScene() {

@@ -12,6 +12,8 @@
 #include "Director.hpp"
 
 namespace Dinky {
+    unsigned int AppController::_fps = 60;
+    unsigned int AppController::_refreshInterval = 1000 / _fps;
     AppController* AppController::_instance = new AppController();
     AppController* AppController::createWindowAndGLView(int argc, char** argv, float width, float height) {
         // 初始化GLUT窗口
@@ -24,6 +26,11 @@ namespace Dinky {
         return _instance;
     }
     
+    void AppController::setFps(unsigned int fps) {
+        _fps = fps;
+        _refreshInterval = 1000 / fps;
+    }
+    
     void AppController::mainloop() {
         Director::getInstance()->mainloop();
         glutSwapBuffers();
@@ -31,12 +38,12 @@ namespace Dinky {
     
     void AppController::update(int value) {
         glutPostRedisplay();
-        glutTimerFunc(1, update, 1);
+        glutTimerFunc(_refreshInterval, update, 0);
     }
     
     void AppController::startup() {
         glutDisplayFunc(&AppController::mainloop);
-        glutTimerFunc(1, &AppController::update, 1);
+        glutTimerFunc(_refreshInterval, &AppController::update, 0);
         glutMainLoop();
     }
 }

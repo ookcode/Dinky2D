@@ -17,7 +17,7 @@ namespace Dinky {
     class Sprite : public Node {
     public:
         Sprite(const std::string& filePath);
-        ~Sprite();
+        virtual ~Sprite() override;
         virtual void updateVertices() override;
         virtual void draw(Renderer* renderer, glm::mat4 &transform) override;
         

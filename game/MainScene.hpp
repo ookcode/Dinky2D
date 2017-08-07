@@ -16,7 +16,7 @@ class MainScene: public Scene {
 public:
     MainScene();
     ~MainScene();
-    void update(int dt);
+    void update(float dt);
     
 private:
     Sprite* _sp = nullptr;

@@ -11,8 +11,10 @@
 #include <sstream>
 
 namespace Dinky {
-    const char* Program::SHADER_DEFAULT = "default";
     const char* Program::DEFAULT_SHADER_PATH = "../dinky2d/shader/";
+    
+    const char* Program::SHADER_DEFAULT = "default";
+    const char* Program::SHADER_DEFAULT_COLOR = "defaultColor";
     
     Program::Program(const std::string& key) {
         // 创建程序容器
