@@ -14,6 +14,7 @@
 namespace Dinky {
     unsigned int AppController::_fps = 60;
     unsigned int AppController::_refreshInterval = 1000 / _fps;
+    int AppController::_pressedKey = 0;
     AppController* AppController::_instance = new AppController();
     AppController* AppController::createWindowAndGLView(int argc, char** argv, float width, float height) {
         // 初始化GLUT窗口
@@ -41,9 +42,44 @@ namespace Dinky {
         glutTimerFunc(_refreshInterval, update, 0);
     }
     
+    void AppController::onKeyDown(int key, int x, int y) {
+        if (key != _pressedKey) {
+            Director::getInstance()->onKeyDown(key);
+            _pressedKey = key;
+        }
+    }
+    
+    void AppController::onKeyUp(int key, int x, int y) {
+        Director::getInstance()->onKeyUp(key);
+        _pressedKey = 0;
+    }
+    
+    void AppController::onMouseClickEvent(int button, int state, int x, int y) {
+        if(button == GLUT_LEFT_BUTTON) {
+            
+        } else if(button == GLUT_MIDDLE_BUTTON) {
+            
+        } else if(button == GLUT_RIGHT_BUTTON) {
+            
+        }
+        
+        if(state == GLUT_DOWN) {
+            
+        } else if(state == GLUT_UP) {
+            
+        }
+    }
+    
+    void AppController::onMouseMoveEvent(int x, int y) {
+    }
+    
     void AppController::startup() {
         glutDisplayFunc(&AppController::mainloop);
         glutTimerFunc(_refreshInterval, &AppController::update, 0);
+        glutSpecialFunc(&AppController::onKeyDown);
+        glutSpecialUpFunc(&AppController::onKeyUp);
+        glutMouseFunc(&AppController::onMouseClickEvent);
+        glutMotionFunc(&AppController::onMouseMoveEvent);
         glutMainLoop();
     }
 }

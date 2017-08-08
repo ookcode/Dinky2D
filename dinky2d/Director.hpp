@@ -13,7 +13,7 @@
 #include "Renderer.hpp"
 #include "Scene.hpp"
 #include "Scheduler.hpp"
-
+#include "IMEDelegate.h"
 namespace Dinky {
     
     class Director {
@@ -31,6 +31,11 @@ namespace Dinky {
         Scheduler* getScheduler() {
             return _globalScheduler;
         }
+        void onKeyDown(int key);
+        void onKeyUp(int key);
+        void registerKeyboardDelegate(IMEDelegate *delegate);
+        void unregisterKeyboardDelegate(IMEDelegate *delegate);
+        
     private:
         Director();
         ~Director();
@@ -45,6 +50,7 @@ namespace Dinky {
         static Director *_instance;
         Scheduler *_globalScheduler = nullptr;
         std::map<std::string, Scheduler*> _schedulers;
+        std::map<std::string, IMEDelegate*> _keyListeners;
     };
 
 }

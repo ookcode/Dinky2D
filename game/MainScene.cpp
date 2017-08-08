@@ -13,10 +13,10 @@ MainScene::MainScene() {
 
     Layer* layer = new Layer(winSize.x, winSize.y, glm::vec4(0.3f, 0.3f, 0.3f, 1.0f));
     this->addChild(layer);
-    
+
     Sprite* red = new Sprite("../dinky2d/resources/image.jpg");
     red->setColor(glm::vec3(1.0f, 0.0f, 0.0f));
-//    red->setOpacity(0.5f);
+    // red->setOpacity(0.5f);
     red->setSize(glm::vec2(100.0f, 100.0f));
     red->setPosition(winSize / 2.0f);
     red->setRotation(30.0f);
@@ -39,6 +39,15 @@ MainScene::MainScene() {
     green->addChild(blue);
 
     this->schedule(std::bind(&MainScene::update, this, std::placeholders::_1));
+    Director::getInstance()->registerKeyboardDelegate(this);
+}
+
+void MainScene::onKeyUp(int key) {
+    printf("onKeyUp %d\n", key);
+}
+
+void MainScene::onKeyDown(int key) {
+    printf("onKeyDown %d\n", key);
 }
 
 void MainScene::update(float dt) {
@@ -46,4 +55,5 @@ void MainScene::update(float dt) {
 }
 
 MainScene::~MainScene() {
+    Director::getInstance()->unregisterKeyboardDelegate(this);
 }

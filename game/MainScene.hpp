@@ -10,14 +10,16 @@
 #define mainScene_hpp
 
 #include "Dinky2D.h"
+#include "IMEDelegate.h"
 using namespace Dinky;
 
-class MainScene: public Scene {
+class MainScene: public Scene, public IMEDelegate {
 public:
     MainScene();
     ~MainScene();
     void update(float dt);
-    
+    virtual void onKeyDown(int key) override;
+    virtual void onKeyUp(int key) override;
 private:
     Sprite* _sp = nullptr;
 };

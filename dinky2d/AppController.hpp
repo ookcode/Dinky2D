@@ -20,9 +20,13 @@ namespace Dinky {
     private:
         AppController() = default;
         static void update(int value);
+        static void onKeyDown(int key,int x,int y);
+        static void onKeyUp(int key, int x, int y);
+        static void onMouseClickEvent(int button,int state,int x,int y);
+        static void onMouseMoveEvent(int x, int y);
         static void mainloop();
         static AppController* _instance;
-        
+        static int _pressedKey;
         static unsigned int _fps;
         static unsigned int _refreshInterval;
     };

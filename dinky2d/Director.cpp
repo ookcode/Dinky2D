@@ -63,6 +63,39 @@ namespace Dinky {
         }
     }
     
+    void Director::registerKeyboardDelegate(IMEDelegate *delegate) {
+        std::ostringstream oskey;
+        oskey << &delegate;
+        std::string key = oskey.str();
+        auto iter = _keyListeners.find(key);
+        assert(iter == _keyListeners.end() && "registerKeyboardDelegate fail, delegate already exists");
+        if(iter == _keyListeners.end()) {
+            _keyListeners[key] = delegate;
+        }
+    }
+    
+    void Director::unregisterKeyboardDelegate(IMEDelegate *delegate) {
+        std::ostringstream oskey;
+        oskey << &delegate;
+        std::string key = oskey.str();
+        auto iter = _keyListeners.find(key);
+        if(iter != _keyListeners.end()) {
+            _keyListeners.erase(iter);
+        }
+    }
+    
+    void Director::onKeyUp(int key) {
+        for (auto iter = _keyListeners.begin(); iter != _keyListeners.end(); ++iter) {
+            iter->second->onKeyUp(key);
+        }
+    }
+    
+    void Director::onKeyDown(int key) {
+        for (auto iter = _keyListeners.begin(); iter != _keyListeners.end(); ++iter) {
+            iter->second->onKeyDown(key);
+        }
+    }
+    
     void Director::mainloop() {
         if(_lastTimeStamp == 0) {
             _lastTimeStamp = getTimeStamp();

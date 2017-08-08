@@ -47,6 +47,7 @@
 		BF0EE68E1F3870B80040C45C /* defaultColor.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = defaultColor.vert; sourceTree = "<group>"; };
 		BF0EE68F1F3870F60040C45C /* Layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cpp; sourceTree = "<group>"; };
 		BF0EE6901F3870F60040C45C /* Layer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Layer.hpp; sourceTree = "<group>"; };
+		BF0EE6951F39A5970040C45C /* IMEDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMEDelegate.h; sourceTree = "<group>"; };
 		BF2057481F1AE7880063B87C /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		BF2057491F1AE7880063B87C /* common.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		BF20574B1F1AE7880063B87C /* _features.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = _features.hpp; sourceTree = "<group>"; };
@@ -741,6 +742,7 @@
 			isa = PBXGroup;
 			children = (
 				BF2058781F1B29520063B87C /* Dinky2D.h */,
+				BF0EE6951F39A5970040C45C /* IMEDelegate.h */,
 				BFA5A9431F318281003FF647 /* AppController.hpp */,
 				BFA5A9421F318281003FF647 /* AppController.cpp */,
 				BF862BA01F19A25800B8E8DF /* Program.hpp */,
