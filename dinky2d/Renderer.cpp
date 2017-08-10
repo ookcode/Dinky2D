@@ -95,12 +95,15 @@ namespace Dinky {
         glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * _filledVertex, _verts, GL_STATIC_DRAW);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _filledIndex, _indices, GL_STATIC_DRAW);
         
+        unsigned int offset = 0;
         // TODO:合并纹理相同的batchNode
         for(int i = 0; i != batchesTotal; ++i) {
             RenderCommand *command = _commands.at(i);
             command->useMaterial();
+            Triangles& triangles = command->getTriangles();
             // 开始绘制
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void *)(sizeof(GLuint) * 6 * i));
+            glDrawElements(GL_TRIANGLES, triangles.indexCount, GL_UNSIGNED_INT, (void *)offset);
+            offset += triangles.indexCount * sizeof(GLuint);
             delete command;
         }
         _commands.clear();

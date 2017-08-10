@@ -33,6 +33,8 @@ class Program {
         static const char* SHADER_DEFAULT;
         // 颜色着色器
         static const char* SHADER_DEFAULT_COLOR;
+        // 文本着色器
+        static const char* SHADER_DEFAULT_LABEL;
     
     public:
         Program(const std::string& key);

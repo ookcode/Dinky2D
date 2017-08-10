@@ -20,6 +20,7 @@ namespace Dinky {
     ProgramCache::ProgramCache() {
         addProgram(Program::SHADER_DEFAULT);
         addProgram(Program::SHADER_DEFAULT_COLOR);
+        addProgram(Program::SHADER_DEFAULT_LABEL);
     }
     
     ProgramCache::~ProgramCache() {

@@ -13,6 +13,11 @@ MainScene::MainScene() {
 
     Layer* layer = new Layer(winSize.x, winSize.y, glm::vec4(0.3f, 0.3f, 0.3f, 1.0f));
     this->addChild(layer);
+    
+    Label *lbl = new Label("欢迎来到Dinky的世界", 20);
+    lbl->setAnchorPoint(glm::vec2(0.5f, 1.0f));
+    lbl->setPosition(glm::vec2(winSize.x / 2, winSize.y - 10));
+    this->addChild(lbl);
 
     Sprite* red = new Sprite("../dinky2d/resources/image.jpg");
     red->setColor(glm::vec3(1.0f, 0.0f, 0.0f));

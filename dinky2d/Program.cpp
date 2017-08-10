@@ -15,6 +15,7 @@ namespace Dinky {
     
     const char* Program::SHADER_DEFAULT = "default";
     const char* Program::SHADER_DEFAULT_COLOR = "defaultColor";
+    const char* Program::SHADER_DEFAULT_LABEL = "defaultLabel";
     
     Program::Program(const std::string& key) {
         // 创建程序容器
