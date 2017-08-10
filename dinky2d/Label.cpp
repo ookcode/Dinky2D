@@ -22,7 +22,7 @@ namespace Dinky {
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, MAX_TEXTURE_SIZE, MAX_TEXTURE_SIZE, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-        
+        glBindTexture(GL_TEXTURE_2D, 0);
         setProgram(ProgramCache::getInstance()->getProgram(Program::SHADER_DEFAULT_LABEL));
         
         if (font.length() == 0) {
@@ -74,6 +74,8 @@ namespace Dinky {
             _triangles.indices[i] = defaultIndices[i % 6] + (i / 6) * 4;
         }
         
+        // 初始化一张1024x1024的纹理
+        glBindTexture(GL_TEXTURE_2D, _texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         
         float vertOffsetX = 0.0f; // 顶点x偏移
@@ -140,6 +142,7 @@ namespace Dinky {
             maxVertWidth = vertOffsetX;
         }
         setSize(glm::vec2(maxVertWidth, - vertOffsetY));
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
     
     void Label::updateVertices() {
@@ -151,6 +154,7 @@ namespace Dinky {
                 _triangles.verts[i].vert += glm::vec3(-anchorPoint.x * size.x, (1 - anchorPoint.y) * size.y, 0.0f);
             }
         }
+        _isDirty = false;
         Node::updateVertices();
     }
     
