@@ -83,6 +83,10 @@ namespace Dinky {
             return _program;
         }
         
+        bool isNodeDirty() {
+            return _isNodeDirty;
+        }
+        
         void removeChild(Node *node);
         void removeFromParent();
         
@@ -113,6 +117,7 @@ namespace Dinky {
         float _rotation = 0.0f;
         float _displayedOpacity = 1.0f;
         float _opacity = 1.0f;
+        bool _isNodeDirty = false; // 设置节点和大小后为true，updateVertices()后重置
         glm::mat4 _modelViewTransform; // 节点的最终变换
         glm::mat4 _transform; // 节点自身的变换
         Scheduler *_scheduler = nullptr;

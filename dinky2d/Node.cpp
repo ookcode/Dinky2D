@@ -59,6 +59,7 @@ namespace Dinky {
     
     void Node::setSize(glm::vec2 size) {
         _size = size;
+        _isNodeDirty = true;
     }
     
     void Node::setVisible(bool visible) {
@@ -83,6 +84,7 @@ namespace Dinky {
     
     void Node::setAnchorPoint(glm::vec2 anchorPoint) {
         _anchorPoint = anchorPoint;
+        _isNodeDirty = true;
     }
     
     void Node::setOpacity(float opacity) {
@@ -122,7 +124,7 @@ namespace Dinky {
     }
     
     void Node::updateVertices() {
-        
+        _isNodeDirty = false;
     }
     
     glm::mat4& Node::getParentToNodeTransform() {

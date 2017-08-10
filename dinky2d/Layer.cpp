@@ -16,7 +16,17 @@ namespace Dinky {
         setSize(glm::vec2(width, height));
         setColor(color);
         setOpacity(color.a);
-        
+        setProgram(ProgramCache::getInstance()->getProgram(Program::SHADER_DEFAULT_COLOR));
+    }
+    
+    Layer::~Layer() {
+    }
+    
+    void Layer::refresh() {
+        if(_triangles.vertCount)
+            delete _triangles.verts;
+        if(_triangles.indices)
+            delete _triangles.indices;
         _triangles.vertCount = 4;
         _triangles.indexCount = 6;
         
@@ -32,20 +42,19 @@ namespace Dinky {
             0, 1, 2,
             2, 3, 0,
         };
-        
-        setProgram(ProgramCache::getInstance()->getProgram(Program::SHADER_DEFAULT_COLOR));
-    }
-    
-    Layer::~Layer() {
     }
     
     void Layer::updateVertices() {
-        glm::vec2 anchorPoint = getAnchorPoint();
-        glm::vec2 size = getSize();
-        _triangles.verts[0].vert = glm::vec3(-anchorPoint * size, 0.0f);
-        _triangles.verts[1].vert = glm::vec3((-anchorPoint + glm::vec2(1.0f, 0.0f)) * size, 0.0f);
-        _triangles.verts[2].vert = glm::vec3((-anchorPoint + glm::vec2(1.0f, 1.0f)) * size, 0.0f);
-        _triangles.verts[3].vert = glm::vec3((-anchorPoint + glm::vec2(0.0f, 1.0f)) * size, 0.0f);
+        if (isNodeDirty()) {
+            refresh();
+            glm::vec2 anchorPoint = getAnchorPoint();
+            glm::vec2 size = getSize();
+            for (int i = 0; i < _triangles.vertCount; ++i) {
+                _triangles.verts[i].vert -= glm::vec3(anchorPoint, 0.0f);
+                _triangles.verts[i].vert *= glm::vec3(size, 0.0f);
+            }
+        }
+        Node::updateVertices();
     }
     
     void Layer::draw(Renderer* renderer, glm::mat4 &transform) {

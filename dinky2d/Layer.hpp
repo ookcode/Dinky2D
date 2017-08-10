@@ -22,6 +22,8 @@ namespace Dinky {
         virtual void draw(Renderer* renderer, glm::mat4 &transform) override;
         
     private:
+        void refresh();
+        
         Triangles _triangles;
     };
     

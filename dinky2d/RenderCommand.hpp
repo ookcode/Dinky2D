@@ -22,10 +22,10 @@ namespace Dinky {
     
     struct Triangles
     {
-        Vertex* verts;
-        GLuint* indices;
-        int vertCount;
-        int indexCount;
+        Vertex* verts = nullptr;
+        GLuint* indices = nullptr;
+        int vertCount = 0;
+        int indexCount = 0;
         Triangles() = default;
         ~Triangles() {
             delete verts;
