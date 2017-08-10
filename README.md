@@ -1,13 +1,16 @@
 # Dinky2D
 
-### 介绍
+[![Language: C++](https://img.shields.io/badge/language-C++-fc487d.svg)](https://isocpp.org/)
+[![License](https://img.shields.io/badge/license-MIT-000000.svg)](https://github.com/ookcode/Dinky2D/blob/master/LICENSE)
+
+## 介绍
 
 这是一个仿造cocos引擎编写的超精简2D游戏引擎，该引擎仅用于：
 
 * 学习cocos2d-x引擎结构
 * 学习OpenGL
 
-### 进度
+## 进度
 
 | 目标     | 是否完成 | 备注              |
 | ------ | :--: | --------------- |
@@ -23,8 +26,18 @@
 | Label  |  ✔️  | 暂不支持对齐操作，自动换行操作 |
 | Demo   |  ✘   |                 |
 
-### 附录
+## 附录
 
 个人总结的cocos2d-x渲染流程。 [点击查看大图](https://raw.githubusercontent.com/ookcode/Dinky2D/master/README/cocos_rendering.png)  
 
 ![](README/cocos_rendering.png)
+
+## 作者
+
+Vincent Yao, ookcode@gmail.com
+
+## 协议
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/License_icon-mit-88x31-2.svg/128px-License_icon-mit-88x31-2.svg.png)
+
+Dinky2D 基于 MIT 协议进行分发和使用，更多信息参见协议文件。
