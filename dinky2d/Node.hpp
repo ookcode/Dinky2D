@@ -88,6 +88,7 @@ namespace Dinky {
         }
         
         void removeChild(Node *node);
+        void removeAllChildren();
         void removeFromParent();
         
         virtual void updateVertices();
@@ -96,7 +97,7 @@ namespace Dinky {
         
         std::string schedule(Scheduler::SEL_SCHEDULE callback);
         void unschedule(Scheduler::SEL_SCHEDULE callback);
-        void unschedule(const std::string& key);
+        void unschedule(const std::string &key);
         void unscheduleAll();
         
         glm::mat4& getParentToNodeTransform();
@@ -105,6 +106,8 @@ namespace Dinky {
         }
         
     private:
+        void clean();
+        
         std::vector<Node *> _children;
         bool _visible = true;
         Node *_parent = nullptr;

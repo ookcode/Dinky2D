@@ -19,9 +19,9 @@ namespace Dinky {
         Director::getInstance()->ungisterScheduler(this);
     }
     
-    std::string Scheduler::schedule(SEL_SCHEDULE &callback) {
+    std::string Scheduler::schedule(SEL_SCHEDULE callback, Node *target) {
         std::ostringstream oskey;
-        oskey << &callback;
+        oskey << target << callback;
         std::string key = oskey.str();
         auto iter = _timers.find(key);
         assert(iter == _timers.end() && "schedule fail, SEL_SCHEDULE already exists");
@@ -29,21 +29,21 @@ namespace Dinky {
             if(_timers.empty()) {
                 Director::getInstance()->registerScheduler(this);
             }
-            _timers[key] = callback;
+            _timers[key] = std::make_pair(target, callback);
         }
         return key;
     }
     
-    void Scheduler::unschedule(SEL_SCHEDULE &callback) {
+    void Scheduler::unschedule(SEL_SCHEDULE callback, Node *target) {
         std::ostringstream oskey;
-        oskey << &callback;
+        oskey << target << callback;
         std::string key = oskey.str();
         unschedule(key);
     }
     
     void Scheduler::unschedule(const std::string &key) {
         auto iter = _timers.find(key);
-        assert(iter != _timers.end() && "unschedule fail, key not exists");
+//        assert(iter != _timers.end() && "unschedule fail, key not exists");
         if(iter != _timers.end()) {
             _timers.erase(iter);
             if(_timers.empty()) {
@@ -58,8 +58,16 @@ namespace Dinky {
     }
     
     void Scheduler::update(float dt) {
-        for (auto iter = _timers.begin(); iter != _timers.end(); ++iter) {
-            (iter->second)(dt);
+        std::vector<std::string> list;
+        for(auto const &pairs: _timers) {
+            list.push_back(pairs.first);
+        }
+        for(auto const &value : list) {
+            auto iter = _timers.find(value);
+            if (iter != _timers.end()) {
+                auto callback = iter->second;
+                (callback.first->*callback.second)(dt);
+            }
         }
     }
 }

@@ -31,8 +31,8 @@ namespace Dinky {
         Scheduler* getScheduler() {
             return _globalScheduler;
         }
-        void onKeyDown(int key);
-        void onKeyUp(int key);
+        void onKeyDown(int key, bool isSpecialKey);
+        void onKeyUp(int key, bool isSpecialKey);
         void registerKeyboardDelegate(IMEDelegate *delegate);
         void unregisterKeyboardDelegate(IMEDelegate *delegate);
         

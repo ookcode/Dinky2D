@@ -16,9 +16,7 @@ namespace Dinky {
     
     Node::~Node() {
         delete _scheduler;
-        for(auto iter = _children.begin(); iter != _children.end(); ++iter) {
-            delete *iter;
-        }
+        clean();
     }
     
     void Node::addChild(Node *node) {
@@ -41,6 +39,17 @@ namespace Dinky {
                 break;
             }
         }
+    }
+    
+    void Node::removeAllChildren() {
+        clean();
+    }
+    
+    void Node::clean() {
+        for(auto iter = _children.begin(); iter != _children.end(); ++iter) {
+            delete *iter;
+        }
+        _children.clear();
     }
     
     void Node::setProgram(Program *program) {
@@ -108,11 +117,11 @@ namespace Dinky {
     }
     
     std::string Node::schedule(Scheduler::SEL_SCHEDULE callback) {
-        return _scheduler->schedule(callback);
+        return _scheduler->schedule(callback, this);
     }
     
     void Node::unschedule(Scheduler::SEL_SCHEDULE callback) {
-        _scheduler->unschedule(callback);
+        _scheduler->unschedule(callback, this);
     }
     
     void Node::unschedule(const std::string &key) {

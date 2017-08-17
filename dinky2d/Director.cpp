@@ -43,7 +43,7 @@ namespace Dinky {
     
     void Director::registerScheduler(Scheduler *scheduler) {
         std::ostringstream oskey;
-        oskey << &scheduler;
+        oskey << scheduler;
         std::string key = oskey.str();
         auto iter = _schedulers.find(key);
         assert(iter == _schedulers.end() && "registerScheduler fail, scheduler already exists");
@@ -54,7 +54,7 @@ namespace Dinky {
     
     void Director::ungisterScheduler(Scheduler *scheduler) {
         std::ostringstream oskey;
-        oskey << &scheduler;
+        oskey << scheduler;
         std::string key = oskey.str();
         auto iter = _schedulers.find(key);
         // assert(iter != _schedulers.end() && "ungisterScheduler fail, scheduler not exists");
@@ -65,7 +65,7 @@ namespace Dinky {
     
     void Director::registerKeyboardDelegate(IMEDelegate *delegate) {
         std::ostringstream oskey;
-        oskey << &delegate;
+        oskey << delegate;
         std::string key = oskey.str();
         auto iter = _keyListeners.find(key);
         assert(iter == _keyListeners.end() && "registerKeyboardDelegate fail, delegate already exists");
@@ -76,7 +76,7 @@ namespace Dinky {
     
     void Director::unregisterKeyboardDelegate(IMEDelegate *delegate) {
         std::ostringstream oskey;
-        oskey << &delegate;
+        oskey << delegate;
         std::string key = oskey.str();
         auto iter = _keyListeners.find(key);
         if(iter != _keyListeners.end()) {
@@ -84,15 +84,29 @@ namespace Dinky {
         }
     }
     
-    void Director::onKeyUp(int key) {
-        for (auto iter = _keyListeners.begin(); iter != _keyListeners.end(); ++iter) {
-            iter->second->onKeyUp(key);
+    void Director::onKeyUp(int key, bool isSpecialKey) {
+        std::vector<std::string> list;
+        for(auto const &pairs: _keyListeners) {
+            list.push_back(pairs.first);
+        }
+        for(auto const &value : list) {
+            auto iter = _keyListeners.find(value);
+            if (iter != _keyListeners.end()) {
+                iter->second->onKeyUp(key, isSpecialKey);
+            }
         }
     }
     
-    void Director::onKeyDown(int key) {
-        for (auto iter = _keyListeners.begin(); iter != _keyListeners.end(); ++iter) {
-            iter->second->onKeyDown(key);
+    void Director::onKeyDown(int key, bool isSpecialKey) {
+        std::vector<std::string> list;
+        for(auto const &pairs: _keyListeners) {
+            list.push_back(pairs.first);
+        }
+        for(auto const &value : list) {
+            auto iter = _keyListeners.find(value);
+            if (iter != _keyListeners.end()) {
+                iter->second->onKeyDown(key, isSpecialKey);
+            }
         }
     }
     
@@ -106,12 +120,19 @@ namespace Dinky {
         // printf("dt = %f , fps = %f\n", dt, _realFps);
         _lastTimeStamp = currentTimeStamp;
         
-        drawScene();
-        
         // 遍历定时器
-        for(auto iter = _schedulers.begin(); iter != _schedulers.end(); ++iter) {
-            iter->second->update(dt);
+        std::vector<std::string> list;
+        for(auto const &pairs: _schedulers) {
+            list.push_back(pairs.first);
         }
+        for(auto const &value : list) {
+            auto iter = _schedulers.find(value);
+            if (iter != _schedulers.end()) {
+                iter->second->update(dt);
+            }
+        }
+        
+        drawScene();
     }
     
     void Director::drawScene() {

@@ -12,21 +12,22 @@
 #include <string>
 #include <map>
 #include <functional>
-
+#define SCHEDULE(_SELECTOR) static_cast<Scheduler::SEL_SCHEDULE>(&_SELECTOR)
 namespace Dinky {
+    class Node;
     class Scheduler {
     public:
         Scheduler();
         ~Scheduler();
-        typedef std::function<void(float)> SEL_SCHEDULE;
-        std::string schedule(SEL_SCHEDULE &callback);
-        void unschedule(SEL_SCHEDULE &callback);
-        void unschedule(const std::string& key);
+        typedef void(Node::*SEL_SCHEDULE)(float);
+        std::string schedule(SEL_SCHEDULE callback, Node *target);
+        void unschedule(SEL_SCHEDULE callback, Node *target);
+        void unschedule(const std::string &key);
         void unscheduleAll();
         void update(float dt);
         
     private:
-        std::map<std::string, SEL_SCHEDULE> _timers;
+        std::map<std::string, std::pair<Node*, SEL_SCHEDULE>> _timers;
     };
 }
 
