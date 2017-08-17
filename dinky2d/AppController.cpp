@@ -42,15 +42,27 @@ namespace Dinky {
         glutTimerFunc(_refreshInterval, update, 0);
     }
     
-    void AppController::onKeyDown(int key, int x, int y) {
+    void AppController::onSpecialKeyDown(int key, int x, int y) {
         if (key != _pressedKey) {
-            Director::getInstance()->onKeyDown(key);
+            Director::getInstance()->onKeyDown(key, true);
             _pressedKey = key;
         }
     }
     
-    void AppController::onKeyUp(int key, int x, int y) {
-        Director::getInstance()->onKeyUp(key);
+    void AppController::onSpecialKeyUp(int key, int x, int y) {
+        Director::getInstance()->onKeyUp(key, true);
+        _pressedKey = 0;
+    }
+    
+    void AppController::onKeyDown(unsigned char key, int x, int y) {
+        if (key != _pressedKey) {
+            Director::getInstance()->onKeyDown(key, false);
+            _pressedKey = key;
+        }
+    }
+    
+    void AppController::onKeyUp(unsigned char key, int x, int y) {
+        Director::getInstance()->onKeyUp(key, false);
         _pressedKey = 0;
     }
     
@@ -76,8 +88,10 @@ namespace Dinky {
     void AppController::startup() {
         glutDisplayFunc(&AppController::mainloop);
         glutTimerFunc(_refreshInterval, &AppController::update, 0);
-        glutSpecialFunc(&AppController::onKeyDown);
-        glutSpecialUpFunc(&AppController::onKeyUp);
+        glutSpecialFunc(&AppController::onSpecialKeyDown);
+        glutSpecialUpFunc(&AppController::onSpecialKeyUp);
+        glutKeyboardFunc(&AppController::onKeyDown);
+        glutKeyboardUpFunc(&AppController::onKeyUp);
         glutMouseFunc(&AppController::onMouseClickEvent);
         glutMotionFunc(&AppController::onMouseMoveEvent);
         glutMainLoop();

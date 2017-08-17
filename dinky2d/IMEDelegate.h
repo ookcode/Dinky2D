@@ -12,8 +12,8 @@
 namespace Dinky {
     class IMEDelegate {
     public:
-        virtual void onKeyDown(int key) = 0;
-        virtual void onKeyUp(int key) = 0;
+        virtual void onKeyDown(int key, bool isSpecialKey) = 0;
+        virtual void onKeyUp(int key, bool isSpecialKey) = 0;
     };
 }
 
