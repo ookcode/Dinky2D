@@ -20,6 +20,9 @@
 		BF54E5161F3AC1BF00F93432 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF54E5141F3AC1BF00F93432 /* Label.cpp */; };
 		BF54E51E1F3AE85000F93432 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF54E51D1F3AE82200F93432 /* libz.a */; };
 		BF54E5B91F3AEA9B00F93432 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF54E5B61F3AEA8B00F93432 /* libfreetype.a */; };
+		BF7F6E241F456E420055D4E3 /* Snake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF7F6E221F456E420055D4E3 /* Snake.cpp */; };
+		BF7F6E271F4579A00055D4E3 /* SnakeList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF7F6E251F4579A00055D4E3 /* SnakeList.cpp */; };
+		BF7F6E2D1F45B6380055D4E3 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF7F6E2B1F45B6380055D4E3 /* GameScene.cpp */; };
 		BF862B9C1F199FB000B8E8DF /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF862B9B1F199FB000B8E8DF /* GLUT.framework */; };
 		BF862B9E1F199FB500B8E8DF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF862B9D1F199FB500B8E8DF /* OpenGL.framework */; };
 		BF862BA11F19A25800B8E8DF /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF862B9F1F19A25800B8E8DF /* Program.cpp */; };
@@ -396,6 +399,12 @@
 		BF54E5B61F3AEA8B00F93432 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfreetype.a; sourceTree = "<group>"; };
 		BF54E5BA1F3AF06200F93432 /* defaultLabel.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = defaultLabel.frag; sourceTree = "<group>"; };
 		BF54E5BB1F3AF06200F93432 /* defaultLabel.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = defaultLabel.vert; sourceTree = "<group>"; };
+		BF7F6E221F456E420055D4E3 /* Snake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Snake.cpp; sourceTree = "<group>"; };
+		BF7F6E231F456E420055D4E3 /* Snake.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Snake.hpp; sourceTree = "<group>"; };
+		BF7F6E251F4579A00055D4E3 /* SnakeList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SnakeList.cpp; sourceTree = "<group>"; };
+		BF7F6E261F4579A00055D4E3 /* SnakeList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SnakeList.hpp; sourceTree = "<group>"; };
+		BF7F6E2B1F45B6380055D4E3 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
+		BF7F6E2C1F45B6380055D4E3 /* GameScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameScene.hpp; sourceTree = "<group>"; };
 		BF862B8D1F199D2C00B8E8DF /* dinky2d */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dinky2d; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF862B9B1F199FB000B8E8DF /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		BF862B9D1F199FB500B8E8DF /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -784,6 +793,12 @@
 				BF2058761F1B291F0063B87C /* main.cpp */,
 				BF20587D1F1B2A6F0063B87C /* MainScene.hpp */,
 				BF20587C1F1B2A6F0063B87C /* MainScene.cpp */,
+				BF7F6E2C1F45B6380055D4E3 /* GameScene.hpp */,
+				BF7F6E2B1F45B6380055D4E3 /* GameScene.cpp */,
+				BF7F6E261F4579A00055D4E3 /* SnakeList.hpp */,
+				BF7F6E251F4579A00055D4E3 /* SnakeList.cpp */,
+				BF7F6E231F456E420055D4E3 /* Snake.hpp */,
+				BF7F6E221F456E420055D4E3 /* Snake.cpp */,
 			);
 			path = game;
 			sourceTree = SOURCE_ROOT;
@@ -1057,8 +1072,10 @@
 				BFA5A9511F31B77E003FF647 /* RenderCommand.cpp in Sources */,
 				BFDB54701F2B1AEC000BE269 /* Texture.cpp in Sources */,
 				BF862BA41F1AE3EC00B8E8DF /* Sprite.cpp in Sources */,
+				BF7F6E2D1F45B6380055D4E3 /* GameScene.cpp in Sources */,
 				BFA5A94B1F31A30D003FF647 /* Renderer.cpp in Sources */,
 				BF2058601F1AE79C0063B87C /* image_helper.c in Sources */,
+				BF7F6E271F4579A00055D4E3 /* SnakeList.cpp in Sources */,
 				BF54E5161F3AC1BF00F93432 /* Label.cpp in Sources */,
 				BFA5A9541F31C5E6003FF647 /* ProgramCache.cpp in Sources */,
 				BF2058611F1AE79F0063B87C /* SOIL.c in Sources */,
@@ -1073,6 +1090,7 @@
 				BFBD7A4B1F36B11E00A549A6 /* Scheduler.cpp in Sources */,
 				BFA5A9581F32F78C003FF647 /* TextureCache.cpp in Sources */,
 				BF2058681F1AEFE60063B87C /* Node.cpp in Sources */,
+				BF7F6E241F456E420055D4E3 /* Snake.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,8 +11,8 @@
 using namespace Dinky;
 
 int main(int argc, char** argv){
-    float width = 568.0f;
-    float height = 320.0f;
+    float width = 800.0f;
+    float height = 600.0f;
     AppController* app = AppController::createWindowAndGLView(argc, argv, width, height);
     Director::getInstance()->setOpenGLView();
     MainScene* mainScene = new MainScene();

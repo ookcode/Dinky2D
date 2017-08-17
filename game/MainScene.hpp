@@ -18,8 +18,8 @@ public:
     MainScene();
     ~MainScene();
     void update(float dt);
-    virtual void onKeyDown(int key) override;
-    virtual void onKeyUp(int key) override;
+    virtual void onKeyDown(int key, bool isSpecialKey) override;
+    virtual void onKeyUp(int key, bool isSpecialKey) override;
 private:
     Sprite* _sp = nullptr;
 };

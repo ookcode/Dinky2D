@@ -7,7 +7,7 @@
 //
 
 #include "MainScene.hpp"
-
+#include "GameScene.hpp"
 MainScene::MainScene() {
     glm::vec2 winSize = Director::getInstance()->getWinSize();
 
@@ -18,7 +18,22 @@ MainScene::MainScene() {
     lbl->setAnchorPoint(glm::vec2(0.5f, 1.0f));
     lbl->setPosition(glm::vec2(winSize.x / 2, winSize.y - 10));
     this->addChild(lbl);
-
+    
+    Label *lbl2 = new Label("这是一个使用Dinky开发的贪吃蛇小游戏", 20);
+    lbl2->setAnchorPoint(glm::vec2(0.5f, 1.0f));
+    lbl2->setPosition(glm::vec2(winSize.x / 2, winSize.y - 60));
+    this->addChild(lbl2);
+    
+    Label *lbl3 = new Label("你需要同时控制两条小蛇、WASD控制绿色小蛇、↑←↓→控制红色小蛇", 20);
+    lbl3->setAnchorPoint(glm::vec2(0.5f, 1.0f));
+    lbl3->setPosition(glm::vec2(winSize.x / 2, winSize.y - 110));
+    this->addChild(lbl3);
+    
+    Label *lbl4 = new Label("Enter键开始游戏...", 20);
+    lbl4->setAnchorPoint(glm::vec2(0.5f, 0.0f));
+    lbl4->setPosition(glm::vec2(winSize.x / 2, 20));
+    this->addChild(lbl4);
+    
     Sprite* red = new Sprite("../dinky2d/resources/image.jpg");
     red->setColor(glm::vec3(1.0f, 0.0f, 0.0f));
     // red->setOpacity(0.5f);
@@ -43,15 +58,18 @@ MainScene::MainScene() {
     blue->setRotation(60.0f);
     green->addChild(blue);
 
-    this->schedule(std::bind(&MainScene::update, this, std::placeholders::_1));
+    this->schedule(SCHEDULE(MainScene::update));
     Director::getInstance()->registerKeyboardDelegate(this);
 }
 
-void MainScene::onKeyUp(int key) {
+void MainScene::onKeyUp(int key, bool isSpecialKey) {
     printf("onKeyUp %d\n", key);
+    if (key == 13) {
+        Director::getInstance()->runWithScene(new GameScene());
+    }
 }
 
-void MainScene::onKeyDown(int key) {
+void MainScene::onKeyDown(int key, bool isSpecialKey) {
     printf("onKeyDown %d\n", key);
 }
 
@@ -61,4 +79,5 @@ void MainScene::update(float dt) {
 
 MainScene::~MainScene() {
     Director::getInstance()->unregisterKeyboardDelegate(this);
+    this->unschedule(SCHEDULE(MainScene::update));
 }
