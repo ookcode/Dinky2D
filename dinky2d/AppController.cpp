@@ -15,9 +15,13 @@ namespace Dinky {
     unsigned int AppController::_fps = 60;
     unsigned int AppController::_refreshInterval = 1000 / _fps;
     int AppController::_pressedKey = 0;
+    float AppController::_width = 0.0f;
+    float AppController::_height = 0.0f;
     AppController* AppController::_instance = new AppController();
     AppController* AppController::createWindowAndGLView(int argc, char** argv, float width, float height) {
         // 初始化GLUT窗口
+        _width = width;
+        _height = height;
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_3_2_CORE_PROFILE);
         glutInitWindowPosition(500.0f, 100.0f);
@@ -67,22 +71,19 @@ namespace Dinky {
     }
     
     void AppController::onMouseClickEvent(int button, int state, int x, int y) {
+        y = _height - y;
         if(button == GLUT_LEFT_BUTTON) {
-            
-        } else if(button == GLUT_MIDDLE_BUTTON) {
-            
-        } else if(button == GLUT_RIGHT_BUTTON) {
-            
-        }
-        
-        if(state == GLUT_DOWN) {
-            
-        } else if(state == GLUT_UP) {
-            
+            if(state == GLUT_DOWN) {
+                Director::getInstance()->onTouchBegin(x, y);
+            } else if(state == GLUT_UP) {
+                Director::getInstance()->onTouchEnded(x, y);
+            }
         }
     }
     
     void AppController::onMouseMoveEvent(int x, int y) {
+        y = _height - y;
+        Director::getInstance()->onTouchMove(x, y);
     }
     
     void AppController::startup() {

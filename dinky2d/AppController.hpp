@@ -31,6 +31,9 @@ namespace Dinky {
         static int _pressedKey;
         static unsigned int _fps;
         static unsigned int _refreshInterval;
+        
+        static float _width;
+        static float _height;
     };
 }
 

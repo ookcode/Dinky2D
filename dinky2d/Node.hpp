@@ -38,13 +38,23 @@ namespace Dinky {
         }
         
         void setVisible(bool visible);
-        bool getVisible() {
+        bool isVisible() {
             return _visible;
         }
         
         void setPosition(glm::vec2 position);
         glm::vec2& getPosition() {
             return _position;
+        }
+        
+        void setPositionX(float x);
+        float getPositionX() {
+            return _position.x;
+        }
+        
+        void setPositionY(float y);
+        float getPositionY() {
+            return _position.y;
         }
         
         void setColor(glm::vec3 color);
@@ -60,6 +70,11 @@ namespace Dinky {
         void setScale(glm::vec2 scale);
         glm::vec2& getScale() {
             return _scale;
+        }
+        
+        void setTag(int tag);
+        int getTag() {
+            return _tag;
         }
         
         void setAnchorPoint(glm::vec2 anchorPoint);
@@ -88,6 +103,7 @@ namespace Dinky {
         }
         
         void removeChild(Node *node);
+        void removeChild(int index);
         void removeAllChildren();
         void removeFromParent();
         
@@ -120,6 +136,7 @@ namespace Dinky {
         float _rotation = 0.0f;
         float _displayedOpacity = 1.0f;
         float _opacity = 1.0f;
+        int _tag = 0.0f;
         bool _isNodeDirty = false; // 设置节点和大小后为true，updateVertices()后重置
         glm::mat4 _modelViewTransform; // 节点的最终变换
         glm::mat4 _transform; // 节点自身的变换

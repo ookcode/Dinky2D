@@ -110,6 +110,67 @@ namespace Dinky {
         }
     }
     
+    void Director::registerTouchDelegate(TouchDelegate *delegate) {
+        std::ostringstream oskey;
+        oskey << delegate;
+        std::string key = oskey.str();
+        auto iter = _touchListeners.find(key);
+        assert(iter == _touchListeners.end() && "registerTouchDelegate fail, delegate already exists");
+        if(iter == _touchListeners.end()) {
+            _touchListeners[key] = delegate;
+        }
+    }
+    
+    void Director::unregisterTouchDelegate(TouchDelegate *delegate) {
+        std::ostringstream oskey;
+        oskey << delegate;
+        std::string key = oskey.str();
+        auto iter = _touchListeners.find(key);
+        if(iter != _touchListeners.end()) {
+            _touchListeners.erase(iter);
+        }
+    }
+
+    void Director::onTouchBegin(int x, int y) {
+        std::vector<std::string> list;
+        for(auto const &pairs: _touchListeners) {
+            list.push_back(pairs.first);
+        }
+        for(auto const &value : list) {
+            auto iter = _touchListeners.find(value);
+            if (iter != _touchListeners.end()) {
+                iter->second->onTouchBegin(x, y);
+            }
+        }
+    }
+    
+    void Director::onTouchMove(int x, int y) {
+        std::vector<std::string> list;
+        for(auto const &pairs: _touchListeners) {
+            list.push_back(pairs.first);
+        }
+        for(auto const &value : list) {
+            auto iter = _touchListeners.find(value);
+            if (iter != _touchListeners.end()) {
+                iter->second->onTouchMove(x, y);
+            }
+        }
+    }
+    
+    void Director::onTouchEnded(int x, int y) {
+        std::vector<std::string> list;
+        for(auto const &pairs: _touchListeners) {
+            list.push_back(pairs.first);
+        }
+        for(auto const &value : list) {
+            auto iter = _touchListeners.find(value);
+            if (iter != _touchListeners.end()) {
+                iter->second->onTouchEnded(x, y);
+            }
+        }
+    }
+    
+    
     void Director::mainloop() {
         if(_lastTimeStamp == 0) {
             _lastTimeStamp = getTimeStamp();

@@ -14,6 +14,7 @@
 #include "Scene.hpp"
 #include "Scheduler.hpp"
 #include "IMEDelegate.h"
+#include "TouchDelegate.h"
 namespace Dinky {
     
     class Director {
@@ -36,6 +37,12 @@ namespace Dinky {
         void registerKeyboardDelegate(IMEDelegate *delegate);
         void unregisterKeyboardDelegate(IMEDelegate *delegate);
         
+        void onTouchBegin(int x, int y);
+        void onTouchMove(int x, int y);
+        void onTouchEnded(int x, int y);
+        void registerTouchDelegate(TouchDelegate *delegate);
+        void unregisterTouchDelegate(TouchDelegate *delegate);
+        
     private:
         Director();
         ~Director();
@@ -51,6 +58,7 @@ namespace Dinky {
         Scheduler *_globalScheduler = nullptr;
         std::map<std::string, Scheduler*> _schedulers;
         std::map<std::string, IMEDelegate*> _keyListeners;
+        std::map<std::string, TouchDelegate*> _touchListeners;
     };
 
 }

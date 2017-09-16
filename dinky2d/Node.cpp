@@ -32,13 +32,18 @@ namespace Dinky {
         if(node->getParent() != this) {
             throw std::runtime_error("Node not added");
         }
+        
         for(auto iter = _children.begin(); iter != _children.end(); ++iter) {
             if(node == *iter) {
-                _children.erase(iter);
                 delete *iter;
+                _children.erase(iter);
                 break;
             }
         }
+    }
+    
+    void Node::removeChild(int index) {
+        _children.erase(_children.begin() + index);
     }
     
     void Node::removeAllChildren() {
@@ -79,6 +84,14 @@ namespace Dinky {
         _position = position;
     }
     
+    void Node::setPositionX(float x) {
+        _position.x = x;
+    }
+    
+    void Node::setPositionY(float y) {
+        _position.y = y;
+    }
+    
     void Node::setColor(glm::vec3 color) {
         _color = color;
     }
@@ -89,6 +102,10 @@ namespace Dinky {
     
     void Node::setScale(glm::vec2 scale) {
         _scale = scale;
+    }
+    
+    void Node::setTag(int tag) {
+        _tag = tag;
     }
     
     void Node::setAnchorPoint(glm::vec2 anchorPoint) {
