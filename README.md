@@ -25,6 +25,9 @@
 | Label  |  ✔️  | TODO:对齐操作，自动换行操作     |
 | Demo   |  ✔️  | 石乐志的AI，简单的碰撞检测 - 贪吃蛇 |
 
+## Demo游戏
+
+![](README/preview.png)
 ## 附录
 
 个人总结的cocos2d-x渲染流程。 [点击查看大图](https://raw.githubusercontent.com/ookcode/Dinky2D/master/README/cocos_rendering.png)  
