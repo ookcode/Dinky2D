@@ -36,12 +36,10 @@ MainScene::MainScene() {
     _background->addChild(_fruitLayer);
     
     _input = new Sprite("../game/res/input/movbg.png");
-    _input->setSize(glm::vec2(150.0f, 150.0f));
     _input->setVisible(false);
     this->addChild(_input);
     
     _inputBall = new Sprite("../game/res/input/movball.png");
-    _inputBall->setSize(glm::vec2(58.0f, 58.0f));
     _inputBall->setPosition(_input->getSize() / 2.0f);
     _input->addChild(_inputBall);
     
@@ -261,4 +259,5 @@ void MainScene::genFruit(Snake *snake) {
 MainScene::~MainScene() {
     Director::getInstance()->unregisterKeyboardDelegate(this);
     this->unschedule(SCHEDULE(MainScene::update));
+    TextureCache::getInstance()->removeAllTexture();
 }

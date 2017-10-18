@@ -43,7 +43,6 @@ void Snake::born() {
             break;
     }
     _head = new SnakeNode(_imgPrefix + "1.png", _bornPos);
-    _head->setSize(glm::vec2(36.0f, 40.0f));
     _head->setRotation(-90.0f);
     _parent->addChild(_head);
     
@@ -59,7 +58,6 @@ void Snake::addProtect() {
         removeProtect();
     }
     _protectMask = new Sprite("../game/res/snake/protected.png");
-    _protectMask->setSize(glm::vec2(262.0f, 262.0f));
     _protectMask->setPosition(_head->getSize() / 2.0f);
     _head->addChild(_protectMask);
     _isProtected = true;
@@ -99,7 +97,6 @@ void Snake::grow() {
     }
     glm::vec2 nextPos = glm::vec2(node->getPositionX(), node->getPositionY());
     SnakeNode *body = new SnakeNode(_imgPrefix + "2.png", nextPos);
-    body->setSize(glm::vec2(SNAKE_SIZE, SNAKE_SIZE));
     node->next = body;
     _parent->addChild(body);
     ++_length;
