@@ -17,6 +17,8 @@ namespace Dinky {
         static TextureCache* getInstance();
         Texture* addTexture(const std::string& key);
         Texture* getTexture(const std::string& key);
+        void removeTexture(const std::string& key);
+        void removeAllTexture();
         
     private:
         TextureCache();

@@ -20,6 +20,9 @@ namespace Dinky {
         virtual ~Sprite() override;
         virtual void updateVertices() override;
         virtual void draw(Renderer* renderer, glm::mat4 &transform) override;
+        Texture* getTexture() {
+            return _texture;
+        }
         
     private:
         void refresh();

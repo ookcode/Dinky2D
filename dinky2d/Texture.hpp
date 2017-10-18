@@ -20,8 +20,16 @@ namespace Dinky {
             GLuint getObject() {
                 return _texture;
             }
+            int getWidth() {
+                return _width;
+            }
+            int getHeight() {
+                return _height;
+            }
         private:
             GLuint _texture = 0;
+            int _width = 0;
+            int _height = 0;
     };
 }
 

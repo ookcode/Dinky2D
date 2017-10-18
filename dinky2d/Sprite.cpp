@@ -13,6 +13,7 @@ namespace Dinky {
     Sprite::Sprite(const std::string& filePath) {
         _texture = TextureCache::getInstance()->getTexture(filePath);
         setProgram(ProgramCache::getInstance()->getProgram(Program::SHADER_DEFAULT));
+        setSize(glm::vec2(_texture->getWidth(), _texture->getHeight()));
     }
     
     Sprite::~Sprite() {
