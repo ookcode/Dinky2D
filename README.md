@@ -5,13 +5,18 @@
 
 ## 介绍
 
-这是一个仿造cocos引擎编写的超精简2D游戏引擎，该引擎仅用于：
+**这是一款超精简的2D非商业游戏引擎。**
 
-* 学习cocos2d-x引擎结构
+引擎结构参考知名2D游戏引擎 **[cocos2d-x](https://github.com/cocos2d/cocos2d-x)**
+
+您可以使用它：
+
+* 制作小游戏
+* 学习游戏引擎
 * 学习OpenGL
-
+* 学习贪吃蛇 ：）
 ## 进度
-
+**目前只支持xcode下的mac工程，windows工程尚未配置** *(欢迎PR)*。
 | 目标     | 是否完成 | 备注                   |
 | ------ | :--: | -------------------- |
 | 基本渲染流程 |  ✔️  | TODO: 渲染批次合并问题       |
@@ -25,14 +30,10 @@
 | Label  |  ✔️  | TODO:对齐操作，自动换行操作     |
 | Demo   |  ✔️  | 石乐志的AI，简单的碰撞检测 - 贪吃蛇 |
 
-## Demo游戏
+
+## Demo截图
 
 ![](README/preview.png)
-## 附录
-
-个人总结的cocos2d-x渲染流程。 [点击查看大图](https://raw.githubusercontent.com/ookcode/Dinky2D/master/README/cocos_rendering.png)  
-
-![](README/cocos_rendering.png)
 
 ## 作者
 
