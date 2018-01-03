@@ -62,9 +62,9 @@ namespace Dinky {
         // 初始化顶点信息（分配内存）
         int length = (int)wtext.length();
         if(_triangles.vertCount)
-            delete _triangles.verts;
+            delete[] _triangles.verts;
         if(_triangles.indices)
-            delete _triangles.indices;
+            delete[] _triangles.indices;
         _triangles.vertCount = 4 * length;
         _triangles.indexCount = 6 * length;
         _triangles.indices = new GLuint[_triangles.indexCount];
@@ -137,6 +137,7 @@ namespace Dinky {
             // 偏移
             vertOffsetX = vertRight;
             texOffsetX += width;
+            FT_Done_Glyph(glyph);
         }
         if (vertOffsetX > maxVertWidth) {
             maxVertWidth = vertOffsetX;

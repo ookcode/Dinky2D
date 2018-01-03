@@ -28,8 +28,8 @@ namespace Dinky {
         int indexCount = 0;
         Triangles() = default;
         ~Triangles() {
-            delete verts;
-            delete indices;
+            delete[] verts;
+            delete[] indices;
         }
     };
     

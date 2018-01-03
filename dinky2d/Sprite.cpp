@@ -21,9 +21,9 @@ namespace Dinky {
     
     void Sprite::refresh() {
         if(_triangles.vertCount)
-            delete _triangles.verts;
+            delete[] _triangles.verts;
         if(_triangles.indices)
-            delete _triangles.indices;
+            delete[] _triangles.indices;
         _triangles.vertCount = 4;
         _triangles.indexCount = 6;
         _triangles.verts = new Vertex[_triangles.vertCount] {
