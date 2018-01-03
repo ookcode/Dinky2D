@@ -13,6 +13,10 @@
 #include "RenderCommand.hpp"
 
 namespace Dinky {
+    struct BatchCommand {
+        RenderCommand *command;
+        GLuint indexCount;
+    };
     class Renderer {
     public:
         static const int VBO_SIZE = 65536;
@@ -33,6 +37,7 @@ namespace Dinky {
         GLuint _vbo = 0;
         GLuint _ebo = 0;
         std::vector<RenderCommand *> _commands;
+        std::vector<BatchCommand> _batchCommands;
     };
 }
 

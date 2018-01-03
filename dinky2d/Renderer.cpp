@@ -29,10 +29,6 @@ namespace Dinky {
         // 设置当前ebo为活动状态
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
         
-        // 将顶点信息传递给VBO
-//        glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * VBO_SIZE, _verts, GL_DYNAMIC_DRAW);
-//        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * INDEX_VBO_SIZE, _indices, GL_STATIC_DRAW);
-        
         // 绑定顶点信息（attribute变量）
         glEnableVertexAttribArray(Program::VERTEX_ATTRIB_POSITION);
         glVertexAttribPointer(Program::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)0);
@@ -60,31 +56,40 @@ namespace Dinky {
         if(_commands.empty()) {
             return;
         }
-        
+        // 清空上一帧的数据
+        _batchCommands.clear();
         _filledVertex = 0;
         _filledIndex = 0;
-        int batchesTotal = 0;
-        
+        GLuint preTextureId = 0;
+        // 遍历所有指令
         for(auto iter = _commands.begin(); iter != _commands.end(); ++iter) {
             RenderCommand *command = (*iter);
-            
+            GLuint currentTextureId = command->getTexture();
+            // 合并相同纹理的指令
+            if (currentTextureId == preTextureId) {
+                BatchCommand &batch = _batchCommands.at(_batchCommands.size() - 1);
+                batch.indexCount += command->getTriangles().indexCount;
+            } else {
+                BatchCommand batch;
+                batch.command = command;
+                batch.indexCount = command->getTriangles().indexCount;
+                _batchCommands.push_back(batch);
+            }
+            preTextureId = currentTextureId;
+            // 将所有顶点信息写入_verts，将所有复用顶点信息写入_indices
             Triangles& triangles = command->getTriangles();
             memcpy(&_verts[_filledVertex], triangles.verts, sizeof(Vertex) * triangles.vertCount);
             for(ssize_t i = 0; i < triangles.indexCount; ++i) {
                 _indices[_filledIndex + i] = triangles.indices[i] + _filledVertex;
             }
-
+            // 顶点信息根据transform信息变换
             for(ssize_t i = 0; i < triangles.vertCount; ++i) {
                 glm::vec3& vert = _verts[_filledVertex + i].vert;
-                // 不要乘反了
-                vert = command->getTransform() * glm::vec4(vert, 1.0f);
-//                printf("%.2f, %.2f, %.2f\n", vert.x, vert.y, vert.z);
+                vert = command->getTransform() * glm::vec4(vert, 1.0f); // 不要乘反了
             }
-            
+            // 总顶点数和总复用顶点数
             _filledVertex += triangles.vertCount;
             _filledIndex += triangles.indexCount;
-            
-            batchesTotal++;
         }
         // 重新绑定 vao vbo ebo
         glBindVertexArray(_vao);
@@ -95,16 +100,19 @@ namespace Dinky {
         glBufferData(GL_ARRAY_BUFFER, sizeof(_verts[0]) * _filledVertex, _verts, GL_STATIC_DRAW);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _filledIndex, _indices, GL_STATIC_DRAW);
         
+        // 批次渲染
         unsigned int offset = 0;
-        // TODO:合并纹理相同的batchNode
-        for(int i = 0; i != batchesTotal; ++i) {
-            RenderCommand *command = _commands.at(i);
-            command->useMaterial();
-            Triangles& triangles = command->getTriangles();
+        for (int i = 0; i < _batchCommands.size(); ++i) {
+            BatchCommand &batch = _batchCommands.at(i);
+            batch.command->useMaterial();
             // 开始绘制
-            glDrawElements(GL_TRIANGLES, triangles.indexCount, GL_UNSIGNED_INT, (void *)offset);
-            offset += triangles.indexCount * sizeof(GLuint);
-            delete command;
+            glDrawElements(GL_TRIANGLES, batch.indexCount, GL_UNSIGNED_INT, (void *)offset);
+            offset += batch.indexCount * sizeof(GLuint);
+        }
+        
+        // 清理
+        for (int i = 0; i < _commands.size(); ++i) {
+            delete _commands.at(i);
         }
         _commands.clear();
         glBindVertexArray(0);
